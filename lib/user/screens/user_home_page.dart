@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:traffice_information_system/user/services/user_services.dart';
+import 'package:traffice_information_system/widgets/custom_button.dart';
 import 'package:traffice_information_system/widgets/user_drawer.dart';
 import 'package:traffice_information_system/widgets/user_information.dart';
 
@@ -18,18 +20,16 @@ class UserHomePage extends StatefulWidget {
 // });
 
 class _UserHomePageState extends State<UserHomePage> {
-
   String? userName, userImage;
+
   @override
   void initState() {
     // TODO: implement initState
     NetworkHelper().userProfile(nidValue: widget.nidValue).then((value) {
-print("/////");
-print(value);
+      print("/////");
+      print(value);
       userName = value['userInfo']['u_name'];
       userImage = value['userInfo']['image'];
-
-
     });
     super.initState();
   }
@@ -45,7 +45,6 @@ print(value);
         drawer: UserDrawer(
           userName: userName,
           image: userImage,
-
         ),
         body: Container(
           child: FutureBuilder(
@@ -58,7 +57,8 @@ print(value);
                 );
               } else if (snapshot.hasData) {
                 return Card(
-                  child: Column(
+                  child: ListView(
+                    shrinkWrap: true,
                     children: [
                       SizedBox(
                         height: 20,
@@ -82,11 +82,11 @@ print(value);
                                   labelText: snapshot.data['userInfo']['mobile']
                                       .toString(),
                                 ),
-                                UserInfo(
-                                  labelName: 'User Name: ',
-                                  labelText: snapshot.data['userInfo']
-                                      ['u_name'],
-                                ),
+                                // UserInfo(
+                                //   labelName: 'Present Address',
+                                //   labelText: snapshot.data['userInfo']
+                                //       ['p_address'],
+                                // ),
                               ],
                             ),
                             Image.network(
@@ -99,9 +99,197 @@ print(value);
                         ),
                       ),
 
-                      Text(snapshot.data['userInfo']['mobile'].toString()),
-                      Text(snapshot.data['userInfo']['p_address']),
+                      Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.all(10),
+                        child: Text('Present Address:  ' +
+                            snapshot.data['userInfo']['p_address']),
+                      ),
+                      Divider(
+                        height: 6,
+                      ),
+                      if (snapshot.data['license'].isEmpty)
+                        CustomButton(
+                            onPressed: () {},
+                            buttonName: 'Apply For Driving License'),
+                      if (snapshot.data['license'].isNotEmpty)
+                        Container(
+                          margin: EdgeInsets.only(left: 10, right: 10),
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Text(
+                                "License Information",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.blueAccent),
+                              ),
+
+                              SizedBox(height: 20,),
+                              UserInfo(
+                                labelName: 'License Number',
+                                labelText: snapshot.data['license'][0]['lc_no'],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              UserInfo(
+                                labelName: 'License Type',
+                                labelText: snapshot.data['license'][0]
+                                    ['lc_type'],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              UserInfo(
+                                labelName: 'License Status',
+                                labelText: snapshot.data['license'][0]
+                                    ['lc_status'],
+                              ),
+
+                              SizedBox(
+                                height: 10,
+                              ),
+                              UserInfo(
+                                labelName: 'Exam Issue Date',
+                                labelText: DateFormat()
+                                    .add_yMMMd()
+                                    .format(
+                                  DateTime.parse(snapshot.data['license'][0]
+                                  ['exam_date']),
+                                ),
+                              ),
+
+
+                              SizedBox(
+                                height: 10,
+                              ),
+
+                              UserInfo(
+                                labelName: 'License Issue Date',
+                                labelText: DateFormat()
+                                    .add_yMMMd()
+                                    .format(
+                                  DateTime.parse(snapshot.data['license'][0]
+                                  ['lc_issue_date']),
+                                ),
+                              ),
+
+
+                              SizedBox(
+                                height: 10,
+                              ),
+
+                              UserInfo(
+                                labelName: 'License Expired Date',
+                                labelText:
+                                DateFormat()
+                                    .add_yMMMd()
+                                    .format(
+                                  DateTime.parse(snapshot.data['license'][0]
+                                  ['lc_expired_date']),
+                                ),
+
+
+
+                              ),
+
+                            ],
+                          ),
+                        ),
+
                       // Text(DateTime.parse(snapshot.data['userInfo']['dob'].toString())),
+
+
+                      Divider(
+                        height: 6,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Vehicle Information",
+                              style: TextStyle(
+                                  fontSize: 20, color: Colors.blueAccent),
+                            ),
+
+                            SizedBox(height: 20,),
+                            UserInfo(
+                              labelName: 'Owner Name',
+                              labelText: snapshot.data['userInfo']['u_name'],
+                            ),
+                            // SizedBox(
+                            //   height: 10,
+                            // ),
+                            // UserInfo(
+                            //   labelName: 'License Type',
+                            //   labelText: snapshot.data['license'][0]
+                            //   ['lc_type'],
+                            // ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            // UserInfo(
+                            //   labelName: 'License Status',
+                            //   labelText: snapshot.data['license'][0]
+                            //   ['lc_status'],
+                            // ),
+
+                            SizedBox(
+                              height: 10,
+                            ),
+                            UserInfo(
+                              labelName: 'Insurance Expired Date',
+                              labelText: DateFormat()
+                                  .add_yMMMd()
+                                  .format(
+                                DateTime.parse(snapshot.data['license'][0]
+                                ['exam_date']),
+                              ),
+                            ),
+
+
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            UserInfo(
+                              labelName: 'License Issue Date',
+                              labelText: DateFormat()
+                                  .add_yMMMd()
+                                  .format(
+                                DateTime.parse(snapshot.data['license'][0]
+                                ['lc_issue_date']),
+                              ),
+                            ),
+
+
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            UserInfo(
+                              labelName: 'License Expired Date',
+                              labelText:
+                              DateFormat()
+                                  .add_yMMMd()
+                                  .format(
+                                DateTime.parse(snapshot.data['license'][0]
+                                ['lc_expired_date']),
+                              ),
+
+
+
+                            ),
+
+                          ],
+                        ),
+                      ),
+
+
+
+
                     ],
                   ),
                 );

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 const labelNameStyle = TextStyle(
   fontSize: 18,
-  color: Colors.amberAccent
+  color: Colors.red
 );
 
 

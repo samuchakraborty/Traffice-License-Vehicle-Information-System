@@ -12,10 +12,11 @@ class UserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
 
         Container(
-          width: 120,
+          width: 140,
           child: Text(labelName!+ ':', style:labelNameStyle ,),),
         SizedBox(width: 10,),
         Text(labelText!, style: labelTextStyle,),
