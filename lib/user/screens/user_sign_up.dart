@@ -40,8 +40,8 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
                 height: 20,
               ),
               CustomTextField(
-                labelName: 'User Name',
-                hintTextName: 'Enter your user name',
+                labelName: 'Nid Card Number',
+                hintTextName: 'Enter Your Nid Value',
                 textInputType: TextInputType.text,
                 onChangedFunction: (value) {
                   print(value);
@@ -51,8 +51,8 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
                 height: 40,
               ),
               CustomTextField(
-                labelName: 'Email',
-                hintTextName: 'example@gmail.com',
+                labelName: 'Mobile Number',
+                hintTextName: 'Enter Your Mobile Number',
                 textInputType: TextInputType.emailAddress,
                 onChangedFunction: (value) {
                   print(value);
@@ -63,7 +63,7 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
               ),
               CustomTextField(
                 labelName: 'Password',
-                hintTextName: 'enter your password',
+                hintTextName: 'Enter your password',
                 textInputType: TextInputType.visiblePassword,
                 obscureTextTy: _secureText,
                 onChangedFunction: (value) {
@@ -110,9 +110,9 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
                     Text(
                       "Log In ",
                       style: TextStyle(
-                          fontSize: 17,
-                          color: Colors.red,
-                          ),
+                        fontSize: 17,
+                        color: Colors.red,
+                      ),
                     ),
                   ],
                 ),

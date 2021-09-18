@@ -34,6 +34,7 @@ class CustomTextField extends StatelessWidget {
           // autofocus: true,
           initialValue: initialValue,
           enabled: true,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             hintStyle: TextStyle(color: Colors.red, fontSize: 20),
             hintText: hintTextName,

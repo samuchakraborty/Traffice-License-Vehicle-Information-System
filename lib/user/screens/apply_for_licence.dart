@@ -186,8 +186,15 @@ class _ApplyForLicenceState extends State<ApplyForLicence> {
               SizedBox(
                 height: 10,
               ),
-              CustomButton(
-                  onPressed: () {}, buttonName: 'Apply For Driving Licence')
+              Container(
+                width: MediaQuery.of(context).size.width/1.2,
+                child: CustomButton(
+                    onPressed: () {
+
+                      print(_myActivities);
+
+                    }, buttonName: 'Apply For Driving Licence'),
+              )
             ],
           ),
         ),
