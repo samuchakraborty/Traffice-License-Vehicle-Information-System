@@ -13,7 +13,7 @@ class NetworkHelper extends ChangeNotifier {
     if (response.statusCode == 200) {
       return jsonResponse['data'];
     } else {
-      print('expression is occur');
+      throw Exception ('expression is occur');
     }
 
     // print(response.body);
@@ -33,7 +33,7 @@ class NetworkHelper extends ChangeNotifier {
       return jsonResponse;
       notifyListeners();
      } else {
-       print('expression is occur');
+       throw Exception('expression is occur');
      }
     // return null;
   }

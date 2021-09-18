@@ -67,13 +67,13 @@ class UserDrawer extends StatelessWidget {
             isOptional: false,
             icon: CupertinoIcons.person_alt,
             labelText: 'Apply For Driving License',
-            // route: () {
-            //   Navigator.of(context).push(
-            //     MaterialPageRoute(
-            //       builder: (_) => AccountPage(),
-            //     ),
-            //   );
-            // },
+            route: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => AccountPage(),
+                ),
+              );
+            },
             iconsOptional: Icons.arrow_forward_ios_sharp,
           ),
           SizedBox(
