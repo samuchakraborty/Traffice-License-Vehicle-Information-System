@@ -69,13 +69,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.14.0+3"
-  flutter_sslcommerz:
-    dependency: "direct main"
-    description:
-      name: flutter_sslcommerz
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.2-nullsafety.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -87,7 +80,7 @@ packages:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.2"
+    version: "0.14.3"
   http:
     dependency: "direct main"
     description:
@@ -115,7 +108,7 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.1"
+    version: "4.1.0"
   matcher:
     dependency: transitive
     description:
@@ -130,6 +123,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  multiselect_formfield:
+    dependency: "direct main"
+    description:
+      name: multiselect_formfield
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.6"
   path:
     dependency: transitive
     description:
@@ -176,7 +176,7 @@ packages:
       name: state_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.0"
+    version: "0.7.1"
   stream_channel:
     dependency: transitive
     description:
@@ -221,4 +221,4 @@ packages:
     version: "2.1.0"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.20.0"
+  flutter: ">=1.17.0"

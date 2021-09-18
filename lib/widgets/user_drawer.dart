@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:traffice_information_system/user/screens/apply_for_licence.dart';
 
 import '../constants.dart';
 
@@ -38,7 +39,7 @@ class UserDrawer extends StatelessWidget {
                         radius: 60,
                         //   backgroundColor: Colors.transparent,
                         backgroundImage: NetworkImage(
-                          'http://10.0.2.2:3000/'+ image!,
+                            'http://10.0.2.2:3000/'+ image!,
                           // fit: BoxFit.contain,
                         ),
                         // child: Container(   width: 100,),
@@ -70,7 +71,7 @@ class UserDrawer extends StatelessWidget {
             route: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => AccountPage(),
+                  builder: (_) => ApplyForLicence(userName: userName!,),
                 ),
               );
             },

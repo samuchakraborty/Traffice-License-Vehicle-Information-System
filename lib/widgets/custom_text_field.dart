@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
     required this.onChangedFunction,
     required this.textInputType, this.onPressed,
     this.validateFunction,
+    this.initialValue,
     this.icon, this.obscureTextTy= false});
 
   final String labelName;
@@ -19,6 +20,7 @@ class CustomTextField extends StatelessWidget {
   final Function()? onPressed;
   final IconData? icon;
   final bool obscureTextTy;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,8 @@ class CustomTextField extends StatelessWidget {
         TextFormField(
           keyboardType: textInputType,
           // autofocus: true,
+          initialValue: initialValue,
+          enabled: true,
           decoration: InputDecoration(
             hintStyle: TextStyle(color: Colors.red, fontSize: 20),
             hintText: hintTextName,
