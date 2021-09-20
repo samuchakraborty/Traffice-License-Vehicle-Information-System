@@ -5,9 +5,10 @@ import 'package:traffice_information_system/user/screens/apply_for_licence.dart'
 import '../constants.dart';
 
 class UserDrawer extends StatelessWidget {
- final String? userName, image;
+ final String? userName, image, nid;
+ final String userId;
 
-  UserDrawer({this.userName, this.image});
+  UserDrawer({this.userName, this.image, this.nid,required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,7 @@ class UserDrawer extends StatelessWidget {
             route: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => ApplyForLicence(userName: userName!,),
+                  builder: (_) => ApplyForLicence(userName: userName!,userImage: image!, nid: nid!, userId: userId),
                 ),
               );
             },

@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 
-
-
 class CustomTextField extends StatelessWidget {
-
-  CustomTextField({required this.labelName, required this.hintTextName,
-    required this.onChangedFunction,
-    required this.textInputType, this.onPressed,
-    this.validateFunction,
-    this.initialValue,
-    this.icon, this.obscureTextTy= false});
+  CustomTextField(
+      {required this.labelName,
+      required this.hintTextName,
+      required this.onChangedFunction,
+      required this.textInputType,
+      this.onPressed,
+      this.validateFunction,
+      this.initialValue,
+      this.maxLines,
+      this.icon,
+      this.obscureTextTy = false});
 
   final String labelName;
   final String hintTextName;
   final TextInputType textInputType;
   final FormFieldValidator<String>? validateFunction;
-  final ValueChanged  onChangedFunction;
+  final ValueChanged onChangedFunction;
+  final int? maxLines;
 
   final Function()? onPressed;
   final IconData? icon;
@@ -24,11 +27,19 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
 //              mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(child: Text(labelName, style: TextStyle(color: Colors.grey.shade800, fontWeight: FontWeight.w700, fontSize: 18),),),
+        Container(
+          child: Text(
+            labelName,
+            style: TextStyle(
+                color: Colors.red.shade800,
+                fontWeight: FontWeight.w700,
+                fontSize: 18),
+          ),
+        ),
         TextFormField(
           keyboardType: textInputType,
           // autofocus: true,
@@ -43,7 +54,6 @@ class CustomTextField extends StatelessWidget {
             ),
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.blueAccent),
-
             ),
             //isDense: true,                      // Added this
             //  contentPadding: EdgeInsets.all(15),
@@ -51,13 +61,11 @@ class CustomTextField extends StatelessWidget {
               icon: Icon(icon),
               onPressed: onPressed,
             ),
-
           ),
           onChanged: onChangedFunction,
           obscureText: obscureTextTy,
           validator: validateFunction,
-
-
+         // maxLines: maxLines!,
         ),
       ],
     );

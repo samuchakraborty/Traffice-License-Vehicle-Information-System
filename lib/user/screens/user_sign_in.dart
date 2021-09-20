@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:traffice_information_system/constants.dart';
 import 'package:traffice_information_system/user/screens/user_home_page.dart';
@@ -96,9 +97,10 @@ class _UserLogInState extends State<UserLogIn> {
                         buttonName: 'LOG IN',
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            var data = {'mobile': mobile, 'password': password};
-
-                            NetworkHelper().login(data: data).then(
+                            FormData formData = FormData.fromMap({'mobile': mobile, 'password': password});
+                            Map<String, String> data =  {'mobile': mobile, 'password': password};
+                            NetworkHelper().login(data: data)
+                                .then(
                                   (value) => Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -107,6 +109,7 @@ class _UserLogInState extends State<UserLogIn> {
                                     ),
                                   ),
                                 );
+
                           }
                         },
                       ),

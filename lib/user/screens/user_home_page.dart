@@ -21,6 +21,7 @@ class UserHomePage extends StatefulWidget {
 
 class _UserHomePageState extends State<UserHomePage> {
   String? userName, userImage;
+  int? userId;
 
   @override
   void initState() {
@@ -31,13 +32,29 @@ class _UserHomePageState extends State<UserHomePage> {
       setState(() {
         userName = value['userInfo']['u_name'];
         userImage = value['userInfo']['image'];
+        userId = value['userInfo']['id'];
       });
     });
     super.initState();
   }
 
+  void call(){
+    NetworkHelper().userProfile(nidValue: widget.nidValue).then((value) {
+      print("/////");
+      print(value);
+      setState(() {
+        userName = value['userInfo']['u_name'];
+        userImage = value['userInfo']['image'];
+        userId = value['userInfo']['id'];
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+   // call();
+
+    print(userId);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -149,6 +166,21 @@ class _UserHomePageState extends State<UserHomePage> {
                                 height: 10,
                               ),
                               UserInfo(
+                                labelName: 'Insurance Expired Date',
+                                labelText: DateFormat().add_yMMMd().format(
+                                  DateTime.parse(snapshot.data['license']
+                                  [0]['application_date']),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+
+
+
+                              if(snapshot.data['license'][0]
+                              ['exam_date'] != null)
+                              UserInfo(
                                 labelName: 'Exam Issue Date',
                                 labelText: DateFormat().add_yMMMd().format(
                                       DateTime.parse(snapshot.data['license'][0]
@@ -158,6 +190,8 @@ class _UserHomePageState extends State<UserHomePage> {
                               SizedBox(
                                 height: 10,
                               ),
+                              if(snapshot.data['license'][0]
+                              ['lc_issue_date'] != null)
                               UserInfo(
                                 labelName: 'License Issue Date',
                                 labelText: DateFormat().add_yMMMd().format(
@@ -168,6 +202,8 @@ class _UserHomePageState extends State<UserHomePage> {
                               SizedBox(
                                 height: 10,
                               ),
+                              if(snapshot.data['license'][0]
+                              ['lc_expired_date'] != null)
                               UserInfo(
                                 labelName: 'License Expired Date',
                                 labelText: DateFormat().add_yMMMd().format(
@@ -184,7 +220,7 @@ class _UserHomePageState extends State<UserHomePage> {
                       Divider(
                         height: 6,
                       ),
-                      if (snapshot.data['license'].isNotEmpty)
+                      if (snapshot.data['license'].isEmpty)
                         Container(
                           margin: EdgeInsets.only(left: 10, right: 10),
                           padding: EdgeInsets.all(10),
@@ -223,7 +259,18 @@ class _UserHomePageState extends State<UserHomePage> {
                               SizedBox(
                                 height: 10,
                               ),
-                              if (snapshot.data['license'].isNotEmpty)
+                              UserInfo(
+                                labelName: 'Insurance Expired Date',
+                                labelText: DateFormat().add_yMMMd().format(
+                                  DateTime.parse(snapshot.data['license']
+                                  [0]['application_date']),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+
+                              if (snapshot.data['license'][0]['exam_date'] != null)
                                 UserInfo(
                                   labelName: 'Insurance Expired Date',
                                   labelText: DateFormat().add_yMMMd().format(
@@ -271,6 +318,8 @@ class _UserHomePageState extends State<UserHomePage> {
             ? UserDrawer(
                 userName: userName,
                 image: userImage,
+          nid: widget.nidValue,
+          userId: userId!.toString()
               )
             : Container(),
       ),
