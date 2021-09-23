@@ -38,7 +38,7 @@ class _UserHomePageState extends State<UserHomePage> {
     super.initState();
   }
 
-  void call(){
+  void call() {
     NetworkHelper().userProfile(nidValue: widget.nidValue).then((value) {
       print("/////");
       print(value);
@@ -52,7 +52,7 @@ class _UserHomePageState extends State<UserHomePage> {
 
   @override
   Widget build(BuildContext context) {
-   // call();
+    // call();
 
     print(userId);
     return SafeArea(
@@ -125,9 +125,16 @@ class _UserHomePageState extends State<UserHomePage> {
                         height: 6,
                       ),
                       if (snapshot.data['license'].isEmpty)
-                        CustomButton(
-                            onPressed: () {},
-                            buttonName: 'Apply For Driving License'),
+                        Container(
+                          width: 120,
+
+                          child: CustomButton(
+                              onPressed: () {
+
+
+                              },
+                              buttonName: 'Apply For Driving License'),
+                        ),
                       if (snapshot.data['license'].isNotEmpty)
                         Container(
                           margin: EdgeInsets.only(left: 10, right: 10),
@@ -141,6 +148,17 @@ class _UserHomePageState extends State<UserHomePage> {
                               ),
                               SizedBox(
                                 height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Image.network(
+                                    'http://10.0.2.2:3000/' +
+                                        snapshot.data['license'][0]['image'],
+                                  height: 100,
+                                    width: 100,
+                                  )
+                                ],
                               ),
                               UserInfo(
                                 labelName: 'License Number',
@@ -168,49 +186,48 @@ class _UserHomePageState extends State<UserHomePage> {
                               UserInfo(
                                 labelName: 'Insurance Expired Date',
                                 labelText: DateFormat().add_yMMMd().format(
-                                  DateTime.parse(snapshot.data['license']
-                                  [0]['application_date']),
+                                      DateTime.parse(snapshot.data['license'][0]
+                                          ['application_date']),
+                                    ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              if (snapshot.data['license'][0]['exam_date'] !=
+                                  null)
+                                UserInfo(
+                                  labelName: 'Exam Issue Date',
+                                  labelText: DateFormat().add_yMMMd().format(
+                                        DateTime.parse(snapshot.data['license']
+                                            [0]['exam_date']),
+                                      ),
                                 ),
-                              ),
                               SizedBox(
                                 height: 10,
                               ),
-
-
-
-                              if(snapshot.data['license'][0]
-                              ['exam_date'] != null)
-                              UserInfo(
-                                labelName: 'Exam Issue Date',
-                                labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license'][0]
-                                          ['exam_date']),
-                                    ),
-                              ),
+                              if (snapshot.data['license'][0]
+                                      ['lc_issue_date'] !=
+                                  null)
+                                UserInfo(
+                                  labelName: 'License Issue Date',
+                                  labelText: DateFormat().add_yMMMd().format(
+                                        DateTime.parse(snapshot.data['license']
+                                            [0]['lc_issue_date']),
+                                      ),
+                                ),
                               SizedBox(
                                 height: 10,
                               ),
-                              if(snapshot.data['license'][0]
-                              ['lc_issue_date'] != null)
-                              UserInfo(
-                                labelName: 'License Issue Date',
-                                labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license'][0]
-                                          ['lc_issue_date']),
-                                    ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              if(snapshot.data['license'][0]
-                              ['lc_expired_date'] != null)
-                              UserInfo(
-                                labelName: 'License Expired Date',
-                                labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license'][0]
-                                          ['lc_expired_date']),
-                                    ),
-                              ),
+                              if (snapshot.data['license'][0]
+                                      ['lc_expired_date'] !=
+                                  null)
+                                UserInfo(
+                                  labelName: 'License Expired Date',
+                                  labelText: DateFormat().add_yMMMd().format(
+                                        DateTime.parse(snapshot.data['license']
+                                            [0]['lc_expired_date']),
+                                      ),
+                                ),
                             ],
                           ),
                         ),
@@ -262,15 +279,16 @@ class _UserHomePageState extends State<UserHomePage> {
                               UserInfo(
                                 labelName: 'Insurance Expired Date',
                                 labelText: DateFormat().add_yMMMd().format(
-                                  DateTime.parse(snapshot.data['license']
-                                  [0]['application_date']),
-                                ),
+                                      DateTime.parse(snapshot.data['license'][0]
+                                          ['application_date']),
+                                    ),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
 
-                              if (snapshot.data['license'][0]['exam_date'] != null)
+                              if (snapshot.data['license'][0]['exam_date'] !=
+                                  null)
                                 UserInfo(
                                   labelName: 'Insurance Expired Date',
                                   labelText: DateFormat().add_yMMMd().format(
@@ -318,9 +336,8 @@ class _UserHomePageState extends State<UserHomePage> {
             ? UserDrawer(
                 userName: userName,
                 image: userImage,
-          nid: widget.nidValue,
-          userId: userId!.toString()
-              )
+                nid: widget.nidValue,
+                userId: userId!.toString())
             : Container(),
       ),
     );

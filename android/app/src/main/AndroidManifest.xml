@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.traffice_information_system">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="traffice_information_system"
+       android:usesCleartextTraffic="true"
+       android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

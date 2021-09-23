@@ -1,8 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:http/http.dart' as http;
+import 'dart:io';
+
+
 
 class NetworkHelper extends ChangeNotifier {
   static const String BASE_URL = "http://10.0.2.2:3000/user";
@@ -18,7 +23,7 @@ class NetworkHelper extends ChangeNotifier {
     print(response);
 
     if (response.statusCode == 200) {
-      print(response.statusCode);
+      print(response.data);
       print(url);
       return response.data['data'];
     } else {
@@ -28,10 +33,21 @@ class NetworkHelper extends ChangeNotifier {
     // print(response.body);
   }
 
+
+
+
   Future userProfile({nidValue}) async {
     String url = BASE_URL + '/userprofile/$nidValue';
 
-    final response = await Dio().get(url);
+    Dio dios = new Dio();
+    (dios.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
+
+    final response = await dios.get((url));
     print(response);
     print(url);
   //  final jsonResponse = jsonDecode(response.data);
@@ -40,7 +56,7 @@ class NetworkHelper extends ChangeNotifier {
     // UserProfile userInfo = new UserProfile.fromJson(jsonResponse);
     //   print(userInfo.status);
     //   return userInfo;
-      return response.data;
+      return (response.data);
       notifyListeners();
      } else {
        throw Exception('expression is occur');

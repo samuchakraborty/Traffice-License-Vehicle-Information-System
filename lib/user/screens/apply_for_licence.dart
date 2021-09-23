@@ -307,7 +307,7 @@ class _ApplyForLicenceState extends State<ApplyForLicence> {
       // 'active': 1
     });
 
-    print(formData);
+    print(imageFile!.path.split('/').last);
 
     NetworkHelper().applyLicense(data: formData);
     // dio.Response response =
