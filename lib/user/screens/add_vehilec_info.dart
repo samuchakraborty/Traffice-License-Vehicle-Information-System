@@ -17,9 +17,9 @@ class AddVechile extends StatefulWidget {
 
   AddVechile(
       {required this.userName,
-        required this.nid,
-        required this.userImage,
-        required this.userId});
+      required this.nid,
+      required this.userImage,
+      required this.userId});
 
   @override
   _AddVechileState createState() => _AddVechileState();
@@ -29,20 +29,20 @@ class _AddVechileState extends State<AddVechile> {
   List _typeOfLicence = [];
   List _myQulifican = [];
   File? imageFile;
-  String? regNo;
+  String? vehicleNumber, vehicleFitnessNumber, vehicleInsurance;
 
   @override
   Widget build(BuildContext context) {
     print(widget.userId);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Your Vehcile Information"),
+        title: Text("Add Your vehicle  Information"),
       ),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10),
           padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -63,22 +63,22 @@ class _AddVechileState extends State<AddVechile> {
                     ),
                     child: imageFile != null
                         ? ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.file(
-                        imageFile!,
-                        //width: 100,
-                        //height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    )
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.file(
+                              imageFile!,
+                              //width: 100,
+                              //height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          )
                         : ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(
-                        'assets/avatar.jpg',
-                        width: 100,
-                        height: 100,
-                      ),
-                    ),
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.asset(
+                              'assets/avatar.jpg',
+                              width: 100,
+                              height: 100,
+                            ),
+                          ),
                   ),
                   IconButton2(
                     label: 'PHOTO_UPLOAD',
@@ -102,7 +102,7 @@ class _AddVechileState extends State<AddVechile> {
                                 height: MediaQuery.of(context).size.height / 4,
                                 child: GridView(
                                   gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
                                     crossAxisSpacing: 5.0,
                                     mainAxisSpacing: 5.0,
@@ -130,7 +130,6 @@ class _AddVechileState extends State<AddVechile> {
                   ),
                 ],
               ),
-
               CustomTextField(
                   initialValue: widget.userName,
                   labelName: 'User Name',
@@ -140,8 +139,6 @@ class _AddVechileState extends State<AddVechile> {
               SizedBox(
                 height: 10,
               ),
-
-
               SizedBox(
                 height: 10,
               ),
@@ -151,42 +148,40 @@ class _AddVechileState extends State<AddVechile> {
                   hintTextName: '',
                   onChangedFunction: (val) {},
                   textInputType: TextInputType.text),
-
               SizedBox(
                 height: 10,
               ),
-
               SizedBox(
                 height: 10,
               ),
               CustomTextField(
-                //  initialValue: widget.userName,
-                  labelName: 'Enter Your Vechile NUmber',
+                  //  initialValue: widget.userName,
+                  labelName: 'Enter Your Vehicle Number',
                   hintTextName: '',
                   onChangedFunction: (val) {
-                    regNo = val;
+                    vehicleNumber = val;
                   },
                   textInputType: TextInputType.text),
               SizedBox(
                 height: 10,
               ),
               CustomTextField(
-                //  initialValue: widget.userName,
-                  labelName: 'Enter Your Insurnce NUmber',
+                  //  initialValue: widget.userName,
+                  labelName: 'Enter Your Insurance NUmber',
                   hintTextName: '',
                   onChangedFunction: (val) {
-                    regNo = val;
+                    vehicleInsurance = val;
                   },
                   textInputType: TextInputType.text),
               SizedBox(
                 height: 10,
               ),
               CustomTextField(
-                //  initialValue: widget.userName,
+                  //  initialValue: widget.userName,
                   labelName: 'Enter Your Fitness Report NUmber',
                   hintTextName: '',
                   onChangedFunction: (val) {
-                    regNo = val;
+                    vehicleInsurance = val;
                   },
                   textInputType: TextInputType.text),
               SizedBox(
@@ -196,7 +191,7 @@ class _AddVechileState extends State<AddVechile> {
                 width: MediaQuery.of(context).size.width / 1.2,
                 child: CustomButton(
                     onPressed: () {
-                //s      print(_typeOfLicence);
+                      //s      print(_typeOfLicence);
                       _applyForDL();
                     },
                     buttonName: 'Add Vechile Information'),
@@ -211,21 +206,23 @@ class _AddVechileState extends State<AddVechile> {
   _applyForDL() async {
     FormData formData = FormData.fromMap({
       'uid': widget.userId,
-      'name': widget.userName,
-      'lc_status': 'Pending',
-      'lc_type': _typeOfLicence.join(','),
+      'n_id': widget.nid,
+      'vehicles_no': vehicleNumber,
+      'insurance_number': vehicleInsurance,
+      'fitness_number': vehicleFitnessNumber,
       'profileFile': await dio.MultipartFile.fromFile(imageFile!.path,
           filename: imageFile!.path.split('/').last),
-      'user_type': _myQulifican.join(','),
-
-      'application_date': DateTime.now().toString(),
+      //  'typeOfV': _myQulifican.join(','),
+//'typeOfV': ,
+// 'insurance_date': ,
+      // 'application_date': DateTime.now().toString(),
       // 'address': customerAddress,
       // 'active': 1
     });
 
     print(imageFile!.path.split('/').last);
 
-    NetworkHelper().applyLicense(data: formData);
+    NetworkHelper().addVehicle(data: formData).then((value) => print(value));
     // dio.Response response =
     // await CustomerRepository.addNewCustomer(
     //     data: formData);

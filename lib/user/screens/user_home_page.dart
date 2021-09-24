@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:traffice_information_system/user/services/user_services.dart';
 import 'package:traffice_information_system/widgets/custom_button.dart';
@@ -64,58 +65,134 @@ class _UserHomePageState extends State<UserHomePage> {
           title: Text('User Information'),
           centerTitle: true,
         ),
-        body: Container(
-          child: FutureBuilder(
-            future: NetworkHelper().userProfile(nidValue: widget.nidValue),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              print(snapshot.data);
-              if (snapshot.data == null) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasData) {
-                return Card(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      userInfoCard(snapshot),
+        body: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Column(
+          //  shrinkWrap: true,
+            children: [
+              Container(
+                child: FutureBuilder(
+                  future: NetworkHelper().userProfile(nidValue: widget.nidValue),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    print(snapshot.data);
+                    if (snapshot.data == null) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasData) {
+                      return Card(
+                        child: Column(
+                          // physics: NeverScrollableScrollPhysics(),
+                          // shrinkWrap: true,
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            userInfo(snapshot),
 
-                      // Container(
-                      //   margin: EdgeInsets.only(left: 10, right: 10),
-                      //   padding: EdgeInsets.all(10),
-                      //   child: Text('Present Address:  ' +
-                      //       snapshot.data['userInfo']['p_address']),
-                      // ),
-                      Divider(
-                        height: 6,
-                      ),
-                      if (snapshot.data['license'].isEmpty)
-                        Container(
-                          width: 120,
-                          child: CustomButton(
-                              onPressed: () {},
-                              buttonName: 'Apply For Driving License'),
+                            // Container(
+                            //   margin: EdgeInsets.only(left: 10, right: 10),
+                            //   padding: EdgeInsets.all(10),
+                            //   child: Text('Present Address:  ' +
+                            //       snapshot.data['userInfo']['p_address']),
+                            // ),
+                            Divider(
+                              height: 6,
+                            ),
+                            if (snapshot.data['license'].isEmpty)
+                              Container(
+                                width: 120,
+                                child: CustomButton(
+                                    onPressed: () {},
+                                    buttonName: 'Apply For Driving License'),
+                              ),
+                            if (snapshot.data['license'].isNotEmpty)
+                               userIicense(snapshot),
+
+                              // Text(DateTime.parse(snapshot.data['userInfo']['dob'].toString())),
+
+                              Divider(
+                                height: 6,
+                              ),
+                            //if (snapshot.data['license'].isNotEmpty)
+                             // userVehicle(snapshot),
+                          ],
                         ),
-                      if (snapshot.data['license'].isNotEmpty)
-                        userLicense(snapshot),
+                      );
+                    }
 
-                      // Text(DateTime.parse(snapshot.data['userInfo']['dob'].toString())),
+                    return Container();
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Column(
+                children: [
 
-                      Divider(
-                        height: 6,
-                      ),
-                      if (snapshot.data['license'].isNotEmpty)
-                        userVechile(snapshot),
-                    ],
+                  Text(
+                    "Vehicle Information",
+                    style: TextStyle(fontSize: 20, color: Colors.blueAccent),
                   ),
-                );
-              }
 
-              return Container();
-            },
+                  SizedBox(
+                    height: 20,
+                  ),
+                  FutureBuilder(
+                    future:
+                        NetworkHelper().getVehicleInformation(nid: widget.nidValue),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      print(snapshot.data);
+                      if (snapshot.data == null) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasData) {
+                        return Container(
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Card(
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Image.network(
+                                          'http://10.0.2.2:3000/' +   snapshot.data['data'][index]['image'],
+                                          width: 120,
+                                            height: 100,
+                                          ),
+
+
+                                        ],
+                                      ),
+                                      UserInfo(
+                                        isTrue: true,
+                                        labelName: 'Vehicles Number: ',
+                                        labelText: snapshot.data['data'][index]['vehicles_no'].toString(),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return Divider(
+                                  height: 2,
+                                );
+                              },
+                              itemCount: snapshot.data['data'].length),
+                        );
+                      }
+
+                      return Container();
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
         drawer: userName != null && userImage != null
@@ -130,267 +207,258 @@ class _UserHomePageState extends State<UserHomePage> {
     );
   }
 
-  Container userVechile(AsyncSnapshot<dynamic> snapshot) {
-    return Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        padding: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Text(
-                              "Vehicle Information",
-                              style: TextStyle(
-                                  fontSize: 20, color: Colors.blueAccent),
-                            ),
+  // Container userVehicle(AsyncSnapshot<dynamic> snapshot) {
+  //   return Container(
+  //     margin: EdgeInsets.only(left: 10, right: 10),
+  //     padding: EdgeInsets.all(10),
+  //     child: Column(
+  //       children: [
+  //         Text(
+  //           "Vehicle Information",
+  //           style: TextStyle(fontSize: 20, color: Colors.blueAccent),
+  //         ),
+  //
+  //         SizedBox(
+  //           height: 20,
+  //         ),
+  //         UserInfo(
+  //           isTrue: ,
+  //           labelName: 'Owner Name',
+  //           labelText: snapshot.data['userInfo']['u_name'],
+  //         ),
+  //         // SizedBox(
+  //         //   height: 10,
+  //         // ),
+  //         // UserInfo(
+  //         //   labelName: 'License Type',
+  //         //   labelText: snapshot.data['license'][0]
+  //         //   ['lc_type'],
+  //         // ),
+  //         SizedBox(
+  //           height: 10,
+  //         ),
+  //         // UserInfo(
+  //         //   labelName: 'License Status',
+  //         //   labelText: snapshot.data['license'][0]
+  //         //   ['lc_status'],
+  //         // ),
+  //
+  //         SizedBox(
+  //           height: 10,
+  //         ),
+  //         UserInfo(
+  //           labelName: 'Insurance Expired Date',
+  //           labelText: DateFormat().add_yMMMd().format(
+  //                 DateTime.parse(
+  //                     snapshot.data['license'][0]['application_date']),
+  //               ),
+  //         ),
+  //         SizedBox(
+  //           height: 10,
+  //         ),
+  //
+  //         if (snapshot.data['license'][0]['exam_date'] != null)
+  //           UserInfo(
+  //             labelName: 'Insurance Expired Date',
+  //             labelText: DateFormat().add_yMMMd().format(
+  //                   DateTime.parse(snapshot.data['license'][0]['exam_date']),
+  //                 ),
+  //           ),
+  //
+  //         SizedBox(
+  //           height: 10,
+  //         ),
+  //         if (snapshot.data['license'][0]['lc_issue_date'] != null)
+  //           UserInfo(
+  //             labelName: 'License Issue Date',
+  //             labelText: DateFormat().add_yMMMd().format(
+  //                   DateTime.parse(
+  //                       snapshot.data['license'][0]['lc_issue_date']),
+  //                 ),
+  //           ),
+  //
+  //         SizedBox(
+  //           height: 10,
+  //         ),
+  //         if (snapshot.data['license'][0]['lc_issue_date'] != null)
+  //           UserInfo(
+  //             labelName: 'License Expired Date',
+  //             labelText: DateFormat().add_yMMMd().format(
+  //                   DateTime.parse(
+  //                       snapshot.data['license'][0]['lc_expired_date']),
+  //                 ),
+  //           ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-                            SizedBox(
-                              height: 20,
-                            ),
-                            UserInfo(
-                              labelName: 'Owner Name',
-                              labelText: snapshot.data['userInfo']['u_name'],
-                            ),
-                            // SizedBox(
-                            //   height: 10,
-                            // ),
-                            // UserInfo(
-                            //   labelName: 'License Type',
-                            //   labelText: snapshot.data['license'][0]
-                            //   ['lc_type'],
-                            // ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            // UserInfo(
-                            //   labelName: 'License Status',
-                            //   labelText: snapshot.data['license'][0]
-                            //   ['lc_status'],
-                            // ),
+  Card userIicense(AsyncSnapshot<dynamic> snapshot) {
+    return Card(
+      elevation: 5,
+      child: Container(
+        margin: EdgeInsets.only(left: 10, right: 10),
+        padding: EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              "License Information",
+              style: TextStyle(fontSize: 20, color: Colors.blueAccent),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Image.network(
+                  'http://10.0.2.2:3000/' +
+                      snapshot.data['license'][0]['image'],
+                  height: 100,
+                  width: 100,
+                )
+              ],
+            ),
+            UserInfo(
+              isTrue: true,
+              labelName: 'License Number',
+              labelText: snapshot.data['license'][0]['lc_no'],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            UserInfo(
 
-                            SizedBox(
-                              height: 10,
-                            ),
-                            UserInfo(
-                              labelName: 'Insurance Expired Date',
-                              labelText: DateFormat().add_yMMMd().format(
-                                    DateTime.parse(snapshot.data['license'][0]
-                                        ['application_date']),
-                                  ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
+              isTrue: false,
+              labelName: 'License Type',
+              labelText: snapshot.data['license'][0]['lc_type'],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            UserInfo(
 
-                            if (snapshot.data['license'][0]['exam_date'] !=
-                                null)
-                              UserInfo(
-                                labelName: 'Insurance Expired Date',
-                                labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license']
-                                          [0]['exam_date']),
-                                    ),
-                              ),
+              isTrue: true,
+              labelName: 'License Status',
+              labelText: snapshot.data['license'][0]['lc_status'],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            UserInfo(
 
-                            SizedBox(
-                              height: 10,
-                            ),
-                            if (snapshot.data['license'][0]
-                                    ['lc_issue_date'] !=
-                                null)
-                              UserInfo(
-                                labelName: 'License Issue Date',
-                                labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license']
-                                          [0]['lc_issue_date']),
-                                    ),
-                              ),
+              isTrue: true,
+              labelName: 'License Application Date',
+              labelText: DateFormat().add_yMMMd().format(
+                    DateTime.parse(
+                        snapshot.data['license'][0]['application_date']),
+                  ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            if (snapshot.data['license'][0]['exam_date'] != null)
+              UserInfo(
 
-                            SizedBox(
-                              height: 10,
-                            ),
-                            if (snapshot.data['license'][0]
-                                    ['lc_issue_date'] !=
-                                null)
-                              UserInfo(
-                                labelName: 'License Expired Date',
-                                labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license']
-                                          [0]['lc_expired_date']),
-                                    ),
-                              ),
-                          ],
-                        ),
-                      );
+                isTrue: true,
+                labelName: 'Exam Issue Date',
+                labelText: DateFormat().add_yMMMd().format(
+                      DateTime.parse(snapshot.data['license'][0]['exam_date']),
+                    ),
+              ),
+            SizedBox(
+              height: 10,
+            ),
+            if (snapshot.data['license'][0]['lc_issue_date'] != null)
+              UserInfo(
+
+                isTrue: true,
+                labelName: 'License Issue Date',
+                labelText: DateFormat().add_yMMMd().format(
+                      DateTime.parse(
+                          snapshot.data['license'][0]['lc_issue_date']),
+                    ),
+              ),
+            SizedBox(
+              height: 10,
+            ),
+            if (snapshot.data['license'][0]['lc_expired_date'] != null)
+              UserInfo(
+                isTrue: true,
+                labelName: 'License Expired Date',
+                labelText: DateFormat().add_yMMMd().format(
+                      DateTime.parse(
+                          snapshot.data['license'][0]['lc_expired_date']),
+                    ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
-  Card userLicense(AsyncSnapshot<dynamic> snapshot) {
+  Card userInfo(AsyncSnapshot<dynamic> snapshot) {
     return Card(
-                        elevation: 5,
-                        child: Container(
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Text(
-                                "License Information",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.blueAccent),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Image.network(
-                                    'http://10.0.2.2:3000/' +
-                                        snapshot.data['license'][0]['image'],
-                                    height: 100,
-                                    width: 100,
-                                  )
-                                ],
-                              ),
-                              UserInfo(
-                                labelName: 'License Number',
-                                labelText: snapshot.data['license'][0]
-                                    ['lc_no'],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              UserInfo(
-                                labelName: 'License Type',
-                                labelText: snapshot.data['license'][0]
-                                    ['lc_type'],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              UserInfo(
-                                labelName: 'License Status',
-                                labelText: snapshot.data['license'][0]
-                                    ['lc_status'],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              UserInfo(
-                                labelName: 'Insurance Expired Date',
-                                labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license']
-                                          [0]['application_date']),
-                                    ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              if (snapshot.data['license'][0]['exam_date'] !=
-                                  null)
-                                UserInfo(
-                                  labelName: 'Exam Issue Date',
-                                  labelText: DateFormat().add_yMMMd().format(
-                                        DateTime.parse(snapshot
-                                            .data['license'][0]['exam_date']),
-                                      ),
-                                ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              if (snapshot.data['license'][0]
-                                      ['lc_issue_date'] !=
-                                  null)
-                                UserInfo(
-                                  labelName: 'License Issue Date',
-                                  labelText: DateFormat().add_yMMMd().format(
-                                        DateTime.parse(
-                                            snapshot.data['license'][0]
-                                                ['lc_issue_date']),
-                                      ),
-                                ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              if (snapshot.data['license'][0]
-                                      ['lc_expired_date'] !=
-                                  null)
-                                UserInfo(
-                                  labelName: 'License Expired Date',
-                                  labelText: DateFormat().add_yMMMd().format(
-                                        DateTime.parse(
-                                            snapshot.data['license'][0]
-                                                ['lc_expired_date']),
-                                      ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      );
-  }
+      elevation: 5,
+      child: Container(
+        margin: EdgeInsets.only(left: 10, right: 10),
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                UserInfo(
 
-  Card userInfoCard(AsyncSnapshot<dynamic> snapshot) {
-    return Card(
-                      elevation: 5,
-                      child: Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                UserInfo(
-                                  labelName: 'User Name',
-                                  labelText: snapshot.data['userInfo']
-                                      ['u_name'],
-                                ),
-                                UserInfo(
-                                  labelName: 'Mobile',
-                                  labelText: snapshot.data['userInfo']
-                                          ['mobile']
-                                      .toString(),
-                                ),
-                                // UserInfo(
-                                //   labelName: 'Present Address',
-                                //   labelText: snapshot.data['userInfo']
-                                //       ['p_address'],
-                                // ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      // margin: EdgeInsets.only(left: 10, right: 10),
-                                      // padding: EdgeInsets.all(10),
-                                      child: Text(
-                                        'Present Address: ' , style: TextStyle(fontSize: 14, color:Colors.red),
-                                      ),
-                                    ),
-                                    Container(
-                                      // margin: EdgeInsets.only(left: 10, right: 10),
-                                      // padding: EdgeInsets.all(10),
-                                      child: Text(
+                  isTrue: false,
+                  labelName: 'User Name',
+                  labelText: snapshot.data['userInfo']['u_name'],
+                ),
+                UserInfo(
 
-                                            snapshot.data['userInfo']
-                                                ['p_address'],
-                                          style: TextStyle(fontSize: 14, color:Colors.green)
-
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            Image.network(
-                              'http://10.0.2.2:3000/' +
-                                  snapshot.data['userInfo']['image'],
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            )
-                          ],
-                        ),
+                  isTrue: false,
+                  labelName: 'Mobile',
+                  labelText: snapshot.data['userInfo']['mobile'].toString(),
+                ),
+                // UserInfo(
+                //   labelName: 'Present Address',
+                //   labelText: snapshot.data['userInfo']
+                //       ['p_address'],
+                // ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      // margin: EdgeInsets.only(left: 10, right: 10),
+                      // padding: EdgeInsets.all(10),
+                      child: Text(
+                        'Present Address: ',
+                        style: TextStyle(fontSize: 14, color: Colors.red),
                       ),
-                    );
+                    ),
+                    Container(
+                      // margin: EdgeInsets.only(left: 10, right: 10),
+                      // padding: EdgeInsets.all(10),
+                      child: Text(snapshot.data['userInfo']['p_address'],
+                          style: TextStyle(fontSize: 14, color: Colors.green)),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Image.network(
+              'http://10.0.2.2:3000/' + snapshot.data['userInfo']['image'],
+              width: 80,
+              height: 80,
+              fit: BoxFit.cover,
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
