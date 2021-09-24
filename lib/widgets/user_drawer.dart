@@ -1,19 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:traffice_information_system/user/screens/add_vehilec_info.dart';
 import 'package:traffice_information_system/user/screens/apply_for_licence.dart';
+import 'package:traffice_information_system/user/screens/quiz/quizbrain.dart';
+import 'package:traffice_information_system/user/screens/ssl_comerz.dart';
 
 import '../constants.dart';
 
 class UserDrawer extends StatelessWidget {
- final String? userName, image, nid;
- final String userId;
+  final String? userName, image, nid;
+  final String userId;
+  final license;
 
-  UserDrawer({this.userName, this.image, this.nid,required this.userId});
+  UserDrawer(
+      {this.userName,
+      this.image,
+      this.nid,
+      required this.userId,
+      required this.license});
 
   @override
   Widget build(BuildContext context) {
-
-   // print(image);
+    print(license);
     return Drawer(
       child: Column(
         children: [
@@ -40,7 +48,7 @@ class UserDrawer extends StatelessWidget {
                         radius: 60,
                         //   backgroundColor: Colors.transparent,
                         backgroundImage: NetworkImage(
-                            'http://10.0.2.2:3000/'+ image!,
+                          'http://10.0.2.2:3000/' + image!,
                           // fit: BoxFit.contain,
                         ),
                         // child: Container(   width: 100,),
@@ -65,6 +73,7 @@ class UserDrawer extends StatelessWidget {
           SizedBox(
             height: 30,
           ),
+          //  if(license.isEmpty)
           CustomDrawerItem(
             isOptional: false,
             icon: CupertinoIcons.person_alt,
@@ -72,8 +81,27 @@ class UserDrawer extends StatelessWidget {
             route: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => ApplyForLicence(userName: userName!,userImage: image!, nid: nid!, userId: userId),
+                  builder: (_) => ApplyForLicence(
+                      userName: userName!,
+                      userImage: image!,
+                      nid: nid!,
+                      userId: userId),
                 ),
+              );
+            },
+            iconsOptional: Icons.arrow_forward_ios_sharp,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+
+          CustomDrawerItem(
+            isOptional: false,
+            icon: CupertinoIcons.person_alt,
+            labelText: 'Learner Test',
+            route: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => Quizzler()),
               );
             },
             iconsOptional: Icons.arrow_forward_ios_sharp,
@@ -86,6 +114,17 @@ class UserDrawer extends StatelessWidget {
             icon: CupertinoIcons.flag,
             labelText: 'Add Your Vehicle Information',
             iconsOptional: Icons.arrow_forward_ios_sharp,
+            route: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => AddVechile(
+                      userName: userName!,
+                      userImage: image!,
+                      nid: nid!,
+                      userId: userId),
+                ),
+              );
+            },
           ),
           SizedBox(
             height: 10,
@@ -95,6 +134,13 @@ class UserDrawer extends StatelessWidget {
             icon: CupertinoIcons.square_favorites_fill,
             labelText: 'Pay Bill',
             iconsOptional: Icons.arrow_forward_ios_sharp,
+            route: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => SSL(),
+                ),
+              );
+            },
           ),
           SizedBox(
             height: 10,

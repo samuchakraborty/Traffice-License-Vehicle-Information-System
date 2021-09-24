@@ -22,6 +22,7 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   String? userName, userImage;
   int? userId;
+  var license;
 
   @override
   void initState() {
@@ -33,6 +34,7 @@ class _UserHomePageState extends State<UserHomePage> {
         userName = value['userInfo']['u_name'];
         userImage = value['userInfo']['image'];
         userId = value['userInfo']['id'];
+        license = value['license'];
       });
     });
     super.initState();
@@ -45,7 +47,8 @@ class _UserHomePageState extends State<UserHomePage> {
       setState(() {
         userName = value['userInfo']['u_name'];
         userImage = value['userInfo']['image'];
-        userId = value['userInfo']['id'];
+        userId = value['userInfo']['license'];
+        license = value['license'];
       });
     });
   }
@@ -78,65 +81,151 @@ class _UserHomePageState extends State<UserHomePage> {
                       SizedBox(
                         height: 20,
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                UserInfo(
-                                  labelName: 'User Name',
-                                  labelText: snapshot.data['userInfo']
-                                      ['u_name'],
-                                ),
-                                UserInfo(
-                                  labelName: 'Mobile',
-                                  labelText: snapshot.data['userInfo']['mobile']
-                                      .toString(),
-                                ),
-                                // UserInfo(
-                                //   labelName: 'Present Address',
-                                //   labelText: snapshot.data['userInfo']
-                                //       ['p_address'],
-                                // ),
-                              ],
-                            ),
-                            Image.network(
-                              'http://10.0.2.2:3000/' +
-                                  snapshot.data['userInfo']['image'],
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            )
-                          ],
-                        ),
-                      ),
+                      userInfoCard(snapshot),
 
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        padding: EdgeInsets.all(10),
-                        child: Text('Present Address:  ' +
-                            snapshot.data['userInfo']['p_address']),
-                      ),
+                      // Container(
+                      //   margin: EdgeInsets.only(left: 10, right: 10),
+                      //   padding: EdgeInsets.all(10),
+                      //   child: Text('Present Address:  ' +
+                      //       snapshot.data['userInfo']['p_address']),
+                      // ),
                       Divider(
                         height: 6,
                       ),
                       if (snapshot.data['license'].isEmpty)
                         Container(
                           width: 120,
-
                           child: CustomButton(
-                              onPressed: () {
-
-
-                              },
+                              onPressed: () {},
                               buttonName: 'Apply For Driving License'),
                         ),
                       if (snapshot.data['license'].isNotEmpty)
-                        Container(
+                        userLicense(snapshot),
+
+                      // Text(DateTime.parse(snapshot.data['userInfo']['dob'].toString())),
+
+                      Divider(
+                        height: 6,
+                      ),
+                      if (snapshot.data['license'].isNotEmpty)
+                        userVechile(snapshot),
+                    ],
+                  ),
+                );
+              }
+
+              return Container();
+            },
+          ),
+        ),
+        drawer: userName != null && userImage != null
+            ? UserDrawer(
+                license: license,
+                userName: userName,
+                image: userImage,
+                nid: widget.nidValue,
+                userId: userId!.toString())
+            : Container(),
+      ),
+    );
+  }
+
+  Container userVechile(AsyncSnapshot<dynamic> snapshot) {
+    return Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Vehicle Information",
+                              style: TextStyle(
+                                  fontSize: 20, color: Colors.blueAccent),
+                            ),
+
+                            SizedBox(
+                              height: 20,
+                            ),
+                            UserInfo(
+                              labelName: 'Owner Name',
+                              labelText: snapshot.data['userInfo']['u_name'],
+                            ),
+                            // SizedBox(
+                            //   height: 10,
+                            // ),
+                            // UserInfo(
+                            //   labelName: 'License Type',
+                            //   labelText: snapshot.data['license'][0]
+                            //   ['lc_type'],
+                            // ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            // UserInfo(
+                            //   labelName: 'License Status',
+                            //   labelText: snapshot.data['license'][0]
+                            //   ['lc_status'],
+                            // ),
+
+                            SizedBox(
+                              height: 10,
+                            ),
+                            UserInfo(
+                              labelName: 'Insurance Expired Date',
+                              labelText: DateFormat().add_yMMMd().format(
+                                    DateTime.parse(snapshot.data['license'][0]
+                                        ['application_date']),
+                                  ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            if (snapshot.data['license'][0]['exam_date'] !=
+                                null)
+                              UserInfo(
+                                labelName: 'Insurance Expired Date',
+                                labelText: DateFormat().add_yMMMd().format(
+                                      DateTime.parse(snapshot.data['license']
+                                          [0]['exam_date']),
+                                    ),
+                              ),
+
+                            SizedBox(
+                              height: 10,
+                            ),
+                            if (snapshot.data['license'][0]
+                                    ['lc_issue_date'] !=
+                                null)
+                              UserInfo(
+                                labelName: 'License Issue Date',
+                                labelText: DateFormat().add_yMMMd().format(
+                                      DateTime.parse(snapshot.data['license']
+                                          [0]['lc_issue_date']),
+                                    ),
+                              ),
+
+                            SizedBox(
+                              height: 10,
+                            ),
+                            if (snapshot.data['license'][0]
+                                    ['lc_issue_date'] !=
+                                null)
+                              UserInfo(
+                                labelName: 'License Expired Date',
+                                labelText: DateFormat().add_yMMMd().format(
+                                      DateTime.parse(snapshot.data['license']
+                                          [0]['lc_expired_date']),
+                                    ),
+                              ),
+                          ],
+                        ),
+                      );
+  }
+
+  Card userLicense(AsyncSnapshot<dynamic> snapshot) {
+    return Card(
+                        elevation: 5,
+                        child: Container(
                           margin: EdgeInsets.only(left: 10, right: 10),
                           padding: EdgeInsets.all(10),
                           child: Column(
@@ -155,14 +244,15 @@ class _UserHomePageState extends State<UserHomePage> {
                                   Image.network(
                                     'http://10.0.2.2:3000/' +
                                         snapshot.data['license'][0]['image'],
-                                  height: 100,
+                                    height: 100,
                                     width: 100,
                                   )
                                 ],
                               ),
                               UserInfo(
                                 labelName: 'License Number',
-                                labelText: snapshot.data['license'][0]['lc_no'],
+                                labelText: snapshot.data['license'][0]
+                                    ['lc_no'],
                               ),
                               SizedBox(
                                 height: 10,
@@ -186,8 +276,8 @@ class _UserHomePageState extends State<UserHomePage> {
                               UserInfo(
                                 labelName: 'Insurance Expired Date',
                                 labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license'][0]
-                                          ['application_date']),
+                                      DateTime.parse(snapshot.data['license']
+                                          [0]['application_date']),
                                     ),
                               ),
                               SizedBox(
@@ -198,8 +288,8 @@ class _UserHomePageState extends State<UserHomePage> {
                                 UserInfo(
                                   labelName: 'Exam Issue Date',
                                   labelText: DateFormat().add_yMMMd().format(
-                                        DateTime.parse(snapshot.data['license']
-                                            [0]['exam_date']),
+                                        DateTime.parse(snapshot
+                                            .data['license'][0]['exam_date']),
                                       ),
                                 ),
                               SizedBox(
@@ -211,8 +301,9 @@ class _UserHomePageState extends State<UserHomePage> {
                                 UserInfo(
                                   labelName: 'License Issue Date',
                                   labelText: DateFormat().add_yMMMd().format(
-                                        DateTime.parse(snapshot.data['license']
-                                            [0]['lc_issue_date']),
+                                        DateTime.parse(
+                                            snapshot.data['license'][0]
+                                                ['lc_issue_date']),
                                       ),
                                 ),
                               SizedBox(
@@ -224,122 +315,82 @@ class _UserHomePageState extends State<UserHomePage> {
                                 UserInfo(
                                   labelName: 'License Expired Date',
                                   labelText: DateFormat().add_yMMMd().format(
-                                        DateTime.parse(snapshot.data['license']
-                                            [0]['lc_expired_date']),
+                                        DateTime.parse(
+                                            snapshot.data['license'][0]
+                                                ['lc_expired_date']),
                                       ),
                                 ),
                             ],
                           ),
                         ),
+                      );
+  }
 
-                      // Text(DateTime.parse(snapshot.data['userInfo']['dob'].toString())),
-
-                      Divider(
-                        height: 6,
-                      ),
-                      if (snapshot.data['license'].isEmpty)
-                        Container(
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Text(
-                                "Vehicle Information",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.blueAccent),
-                              ),
-
-                              SizedBox(
-                                height: 20,
-                              ),
-                              UserInfo(
-                                labelName: 'Owner Name',
-                                labelText: snapshot.data['userInfo']['u_name'],
-                              ),
-                              // SizedBox(
-                              //   height: 10,
-                              // ),
-                              // UserInfo(
-                              //   labelName: 'License Type',
-                              //   labelText: snapshot.data['license'][0]
-                              //   ['lc_type'],
-                              // ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              // UserInfo(
-                              //   labelName: 'License Status',
-                              //   labelText: snapshot.data['license'][0]
-                              //   ['lc_status'],
-                              // ),
-
-                              SizedBox(
-                                height: 10,
-                              ),
-                              UserInfo(
-                                labelName: 'Insurance Expired Date',
-                                labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license'][0]
-                                          ['application_date']),
-                                    ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-
-                              if (snapshot.data['license'][0]['exam_date'] !=
-                                  null)
+  Card userInfoCard(AsyncSnapshot<dynamic> snapshot) {
+    return Card(
+                      elevation: 5,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 UserInfo(
-                                  labelName: 'Insurance Expired Date',
-                                  labelText: DateFormat().add_yMMMd().format(
-                                        DateTime.parse(snapshot.data['license']
-                                            [0]['exam_date']),
-                                      ),
+                                  labelName: 'User Name',
+                                  labelText: snapshot.data['userInfo']
+                                      ['u_name'],
                                 ),
-
-                              SizedBox(
-                                height: 10,
-                              ),
-
-                              UserInfo(
-                                labelName: 'License Issue Date',
-                                labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license'][0]
-                                          ['lc_issue_date']),
+                                UserInfo(
+                                  labelName: 'Mobile',
+                                  labelText: snapshot.data['userInfo']
+                                          ['mobile']
+                                      .toString(),
+                                ),
+                                // UserInfo(
+                                //   labelName: 'Present Address',
+                                //   labelText: snapshot.data['userInfo']
+                                //       ['p_address'],
+                                // ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      // margin: EdgeInsets.only(left: 10, right: 10),
+                                      // padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        'Present Address: ' , style: TextStyle(fontSize: 14, color:Colors.red),
+                                      ),
                                     ),
-                              ),
+                                    Container(
+                                      // margin: EdgeInsets.only(left: 10, right: 10),
+                                      // padding: EdgeInsets.all(10),
+                                      child: Text(
 
-                              SizedBox(
-                                height: 10,
-                              ),
+                                            snapshot.data['userInfo']
+                                                ['p_address'],
+                                          style: TextStyle(fontSize: 14, color:Colors.green)
 
-                              UserInfo(
-                                labelName: 'License Expired Date',
-                                labelText: DateFormat().add_yMMMd().format(
-                                      DateTime.parse(snapshot.data['license'][0]
-                                          ['lc_expired_date']),
+                                      ),
                                     ),
-                              ),
-                            ],
-                          ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            Image.network(
+                              'http://10.0.2.2:3000/' +
+                                  snapshot.data['userInfo']['image'],
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            )
+                          ],
                         ),
-                    ],
-                  ),
-                );
-              }
-
-              return Container();
-            },
-          ),
-        ),
-        drawer: userName != null && userImage != null
-            ? UserDrawer(
-                userName: userName,
-                image: userImage,
-                nid: widget.nidValue,
-                userId: userId!.toString())
-            : Container(),
-      ),
-    );
+                      ),
+                    );
   }
 }

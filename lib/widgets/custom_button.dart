@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
           SizedBox(width: 6,),
           Text(
             buttonName,
-            style: TextStyle(fontSize: 24,),
+            style: TextStyle(fontSize: 18,),
           ),
         ],
       ),
