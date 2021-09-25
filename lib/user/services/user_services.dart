@@ -12,18 +12,19 @@ final userNotifier =
     ChangeNotifierProvider<NetworkHelper>((_) => NetworkHelper());
 
 class NetworkHelper extends ChangeNotifier {
-  static const String BASE_URL = "http://10.0.2.2:3000/user";
+    String BASE_URL = "http://10.0.2.2:3000/user";
 
   Future login({data}) async {
     String url = BASE_URL + '/signin';
-
+print(url);
+print(data);
     final response = await Dio().post(
       url, data: FormData.fromMap(data),
-      //   options: Options(contentType:("application/x-www-form-urlencoded"))
-      options: Options(contentType: Headers.formUrlEncodedContentType),
+        // options: Options(contentType:("application/x-www-form-urlencoded"))
+   // options: Options(contentType: Headers.formUrlEncodedContentType),
     );
     //final jsonResponse = jsonDecode(response.data);
-    // print(response);
+     print(response);
 
     if (response.statusCode == 200) {
       //   print(response.data);

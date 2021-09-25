@@ -17,7 +17,7 @@ class UserInfo extends StatelessWidget {
       children: [
 
         Container(
-          width: isTrue? 160: 120,
+          width: isTrue? 180: 120,
           child: Text(labelName!+ ':', style:labelNameStyle ,),),
         SizedBox(width: 10,),
         Text(labelText!, style: labelTextStyle,),
