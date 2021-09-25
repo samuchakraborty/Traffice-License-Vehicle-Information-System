@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:traffice_information_system/constants.dart';
+import 'package:traffice_information_system/police/screens/police_home_screen.dart';
+import 'package:traffice_information_system/police/services/police_services.dart';
 import 'package:traffice_information_system/user/screens/user_home_page.dart';
 import 'package:traffice_information_system/auth/sign_up.dart';
 import 'package:traffice_information_system/user/services/user_services.dart';
@@ -149,15 +151,17 @@ class _SignInState extends State<SignIn> {
                                 'password': password
                               };
                               print(data);
-                              // NetworkHelper().login(data: data).then(
-                              //       (value) => Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //           builder: (context) => UserHomePage(
-                              //               nidValue: value.toString()),
-                              //         ),
-                              //       ),
-                              //     );
+                              PoliceRepository().policeLogin(data: data).then(
+                                    (value) =>
+
+                                        Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PoliceHomePage(
+                                            batchId: value.toString()),
+                                      ),
+                                    ),
+                                  );
                             }
                           }
                         },

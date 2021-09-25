@@ -6,17 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../url.dart';
+
 final userNotifier =
     ChangeNotifierProvider<NetworkHelper>((_) => NetworkHelper());
 
 class NetworkHelper extends ChangeNotifier {
-  String baseUrl = "http://10.0.2.2:3000/user";
-
   Future login({data}) async {
-    String url = baseUrl + '/signin';
-
     final response = await Dio().post(
-      url, data: FormData.fromMap(data),
+      userLoginUrl, data: FormData.fromMap(data),
       // options: Options(contentType:("application/x-www-form-urlencoded"))
       // options: Options(contentType: Headers.formUrlEncodedContentType),
     );
@@ -35,8 +33,6 @@ class NetworkHelper extends ChangeNotifier {
   }
 
   Future userProfile({nidValue}) async {
-    String url = baseUrl + '/userprofile/$nidValue';
-
     Dio dios = new Dio();
     (dios.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
@@ -45,7 +41,7 @@ class NetworkHelper extends ChangeNotifier {
       return client;
     };
 
-    final response = await dios.get((url));
+    final response = await dios.get(userProfileUrl + nidValue);
     // print(response);
     // print(url);
     //  final jsonResponse = jsonDecode(response.data);
@@ -83,10 +79,8 @@ class NetworkHelper extends ChangeNotifier {
   }
 
   Future addVehicle({data}) async {
-    String url = baseUrl + '/addVechile';
-    //  print(data);
     final response = await Dio().post(
-      url, data: (data),
+      userAddVehicleUrl, data: (data),
       //   options: Options(contentType:("application/x-www-form-urlencoded"))
       options: Options(contentType: Headers.formUrlEncodedContentType),
     );
@@ -95,7 +89,7 @@ class NetworkHelper extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       print(response.statusCode);
-      print(url);
+
       return response.data;
     } else {
       throw Exception('expression is occur');
@@ -105,10 +99,10 @@ class NetworkHelper extends ChangeNotifier {
   //user/getVechile
 
   Future getVehicleInformation({nid}) async {
-    String url = baseUrl + '/getVechile/$nid';
-    print(url);
+    // // String url = baseUrl + '/getVechile/$nid';
+    // print(url);
     final response = await Dio().get(
-      url,
+      userAllVehicleInformationUrl + nid,
       //   options: Options(contentType:("application/x-www-form-urlencoded"))
       // options: Options(contentType: Headers.formUrlEncodedContentType),
     );
@@ -118,7 +112,7 @@ class NetworkHelper extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       print(response.statusCode);
-      print(url);
+      // print(url);
       return response.data;
     } else {
       throw Exception('expression is occur');
