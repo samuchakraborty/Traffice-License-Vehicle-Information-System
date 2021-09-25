@@ -5,26 +5,23 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
-import 'dart:io';
 
 final userNotifier =
     ChangeNotifierProvider<NetworkHelper>((_) => NetworkHelper());
 
 class NetworkHelper extends ChangeNotifier {
-    String BASE_URL = "http://10.0.2.2:3000/user";
+  String baseUrl = "http://10.0.2.2:3000/user";
 
   Future login({data}) async {
-    String url = BASE_URL + '/signin';
-print(url);
-print(data);
+    String url = baseUrl + '/signin';
+
     final response = await Dio().post(
       url, data: FormData.fromMap(data),
-        // options: Options(contentType:("application/x-www-form-urlencoded"))
-   // options: Options(contentType: Headers.formUrlEncodedContentType),
+      // options: Options(contentType:("application/x-www-form-urlencoded"))
+      // options: Options(contentType: Headers.formUrlEncodedContentType),
     );
-    //final jsonResponse = jsonDecode(response.data);
-     print(response);
+
+    print(response);
 
     if (response.statusCode == 200) {
       //   print(response.data);
@@ -38,7 +35,7 @@ print(data);
   }
 
   Future userProfile({nidValue}) async {
-    String url = BASE_URL + '/userprofile/$nidValue';
+    String url = baseUrl + '/userprofile/$nidValue';
 
     Dio dios = new Dio();
     (dios.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
@@ -66,7 +63,7 @@ print(data);
   }
 
   Future applyLicense({data}) async {
-    String url = BASE_URL + '/applyLicense';
+    String url = baseUrl + '/applyLicense';
 
     final response = await Dio().post(
       url, data: (data),
@@ -86,7 +83,7 @@ print(data);
   }
 
   Future addVehicle({data}) async {
-    String url = BASE_URL + '/addVechile';
+    String url = baseUrl + '/addVechile';
     //  print(data);
     final response = await Dio().post(
       url, data: (data),
@@ -108,7 +105,7 @@ print(data);
   //user/getVechile
 
   Future getVehicleInformation({nid}) async {
-    String url = BASE_URL + '/getVechile/$nid';
+    String url = baseUrl + '/getVechile/$nid';
     print(url);
     final response = await Dio().get(
       url,

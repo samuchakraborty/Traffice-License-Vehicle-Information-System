@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traffice_information_system/user/screens/user_sign_in.dart';
+import 'package:traffice_information_system/auth/sign_in.dart';
+import 'package:traffice_information_system/user_police_admin.dart';
 
-import 'user/screens/user_sign_up.dart';
+import 'auth/sign_up.dart';
 
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: UserSignUpPage(),
+      home: UserOrPoliceOrAdmin(),
     );
   }
 }

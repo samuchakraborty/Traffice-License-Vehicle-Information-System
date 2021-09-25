@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:traffice_information_system/user/screens/user_sign_in.dart';
+import 'package:traffice_information_system/auth/sign_in.dart';
 import 'package:traffice_information_system/widgets/custom_button.dart';
 import 'package:traffice_information_system/widgets/custom_text_field.dart';
 
-import '../../constants.dart';
+import '../constants.dart';
 
-class UserSignUpPage extends StatefulWidget {
+class SignUp extends StatefulWidget {
+  final bool isUser;
+
+  SignUp({required this.isUser});
+
   @override
-  _UserSignUpPageState createState() => _UserSignUpPageState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _UserSignUpPageState extends State<UserSignUpPage> {
+class _SignUpState extends State<SignUp> {
   bool _secureText = true;
 
   @override
@@ -18,7 +22,7 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('User Sign Up'),
+          title: widget.isUser ? Text('User Sign Up') : Text('Police Sign Up'),
           centerTitle: true,
         ),
         body: Container(
@@ -93,12 +97,13 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UserLogIn(),
-                    ),
-                  );
+                  Navigator.pop(context);
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => SignIn(),
+                  //   ),
+                  // );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

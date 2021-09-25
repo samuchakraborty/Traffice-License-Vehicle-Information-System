@@ -280,23 +280,24 @@ class SSLL {
                 valueD: "value d"));
     var result = await sslcommerz.payNow();
     print("////// it's called");
-    // Fluttertoast.showToast(
-    //     msg: "Transaction successful: Amount TK");
-    // if (result is PlatformException) {
-    //   print("the response is: " +
-    //       result.message.toString() +
-    //       " code: " +
-    //       result.code);
-    // } else {
-    //   SSLCTransactionInfoModel model = result;
-    //   Fluttertoast.showToast(
-    //       msg: "Transaction successful: Amount ${model.amount} TK",
-    //       toastLength: Toast.LENGTH_SHORT,
-    //       gravity: ToastGravity.CENTER,
-    //       timeInSecForIosWeb: 1,
-    //       backgroundColor: Colors.black,
-    //       textColor: Colors.white,
-    //       fontSize: 16.0);
-    // }
+    Fluttertoast.showToast(
+        msg: "Transaction successful: Amount TK");
+    if (result is PlatformException) {
+      print("the response is: " +
+          result.message.toString() +
+          " code: " +
+          result.code);
+    } else {
+      SSLCTransactionInfoModel model = result;
+      //print(result);
+      Fluttertoast.showToast(
+          msg: "Transaction successful: Amount ${model.amount} TK",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 }
