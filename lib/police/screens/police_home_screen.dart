@@ -20,7 +20,7 @@ class PoliceHomePage extends StatefulWidget {
 }
 
 class _PoliceHomePageState extends State<PoliceHomePage> {
-  String? userName, userImage;
+  String? userName, userImage, designation;
   int? userId;
   var license;
 
@@ -33,6 +33,7 @@ class _PoliceHomePageState extends State<PoliceHomePage> {
       setState(() {
         userName = value.policeInfo!.name;
         userImage = value.policeInformation!.image;
+        designation = value.policeInfo!.position;
         // userId = val;
         // license = value['license'];
       });
@@ -228,6 +229,7 @@ class _PoliceHomePageState extends State<PoliceHomePage> {
               ? PoliceDrawer(
                   image: userImage,
                   userName: userName,
+            designation: designation,
                 )
               : Container()),
     );

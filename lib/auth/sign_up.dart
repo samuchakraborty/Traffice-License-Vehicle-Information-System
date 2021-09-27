@@ -44,8 +44,8 @@ class _SignUpState extends State<SignUp> {
                 height: 20,
               ),
               CustomTextField(
-                labelName: 'Nid Card Number',
-                hintTextName: 'Enter Your Nid Value',
+                labelName: widget.isUser ? 'Nid Card Number' : 'Police Batch Number',
+                hintTextName:widget.isUser ? 'Enter Your Nid Value' : 'Enter Your Batch Number',
                 textInputType: TextInputType.text,
                 onChangedFunction: (value) {
                   print(value);

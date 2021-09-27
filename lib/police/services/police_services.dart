@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:traffice_information_system/police/models/license_model.dart';
 import 'package:traffice_information_system/police/models/police_model.dart';
 import 'package:traffice_information_system/police/models/vehicle_model.dart';
 
@@ -80,7 +81,7 @@ class PoliceRepository {
     if (response.statusCode == 200) {
       print(response.statusCode);
 
-      return response.data;
+      return LicenseInfo.fromJson(response.data);
     } else {
       throw Exception('expression is occur');
     }

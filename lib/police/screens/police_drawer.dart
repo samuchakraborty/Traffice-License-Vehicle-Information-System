@@ -6,11 +6,12 @@ import 'package:traffice_information_system/user_police_admin.dart';
 import '../../constants.dart';
 
 class PoliceDrawer extends StatelessWidget {
-  final String? userName, image;
+  final String? userName, image, designation;
 
   PoliceDrawer({
     this.userName,
     this.image,
+    this.designation
   });
 
   @override
@@ -53,10 +54,10 @@ class PoliceDrawer extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      // Text(
-                      //   "samuckb@gmail.com",
-                      //   style: emailTextStyle,
-                      // )
+                      Text(
+                        designation!,
+                        style: emailTextStyle,
+                      )
                     ],
                   )
                 ],
