@@ -62,7 +62,7 @@ class _UserHomePageState extends State<UserHomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('User Information'),
+          title: Text('User DashBoard'),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
