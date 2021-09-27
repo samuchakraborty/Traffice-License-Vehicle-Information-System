@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 import 'package:traffice_information_system/police/models/police_model.dart';
+import 'package:traffice_information_system/police/screens/police_drawer.dart';
 import 'package:traffice_information_system/police/services/police_services.dart';
 import 'package:traffice_information_system/user/services/user_services.dart';
 import 'package:traffice_information_system/widgets/custom_button.dart';
@@ -26,16 +27,16 @@ class _PoliceHomePageState extends State<PoliceHomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    // NetworkHelper().userProfile(nidValue: widget.nidValue).then((value) {
-    //   print("/////");
-    //   print(value);
-    //   setState(() {
-    //     userName = value['userInfo']['u_name'];
-    //     userImage = value['userInfo']['image'];
-    //     userId = value['userInfo']['license'];
-    //     license = value['license'];
-    //   });
-    // });
+    PoliceRepository().getPoliceProfile(batchId: widget.batchId).then((value) {
+      print("/////");
+      print(value);
+      setState(() {
+        userName = value.policeInfo!.name;
+        userImage = value.policeInformation!.image;
+        // userId = val;
+        // license = value['license'];
+      });
+    });
     super.initState();
   }
 
@@ -59,179 +60,176 @@ class _PoliceHomePageState extends State<PoliceHomePage> {
     print(userId);
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('DashBoard'),
-          centerTitle: true,
-        ),
-        body: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            //  shrinkWrap: true,
-            children: [
-              Container(
-                child: FutureBuilder<PoliceInfo>(
-                  future: PoliceRepository()
-                      .getPoliceProfile(batchId: widget.batchId),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<PoliceInfo> snapshot) {
-                    print(snapshot.data);
-                    if (snapshot.data == null) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasData) {
-                      return Card(
-                        child: Column(
-                          // physics: NeverScrollableScrollPhysics(),
-                          // shrinkWrap: true,
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            policeInfo(snapshot),
-
-                            Divider(
-                              height: 6,
-                            ),
-                            // if (snapshot.data['license'].isEmpty)
-                            Container(
-                              //  width: 300,
-                              child: CustomButton(
-                                  onPressed: () {},
-                                  buttonName: 'Apply For Driving License'),
-                            ),
-                            //  if (snapshot.data['license'].isNotEmpty)
-                            //  userLicense(snapshot),
-
-                            // Text(DateTime.parse(snapshot.data['userInfo']['dob'].toString())),
-
-                            Divider(
-                              height: 6,
-                            ),
-                            //if (snapshot.data['license'].isNotEmpty)
-                            // userVehicle(snapshot),
-                          ],
-                        ),
-                      );
-                    }
-
-                    return Container();
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              // Column(
-              //   children: [
-              //     Text(
-              //       "Vehicle Information",
-              //       style: TextStyle(fontSize: 20, color: Colors.blueAccent),
-              //     ),
-              //     SizedBox(
-              //       height: 20,
-              //     ),
-              //     FutureBuilder(
-              //       future: NetworkHelper()
-              //           .getVehicleInformation(nid: widget.nidValue),
-              //       builder: (BuildContext context, AsyncSnapshot snapshot) {
-              //         print(snapshot.data);
-              //         if (snapshot.data == null) {
-              //           return Center(
-              //             child: CircularProgressIndicator(),
-              //           );
-              //         } else if (snapshot.hasData) {
-              //           return Container(
-              //             child: ListView.separated(
-              //                 shrinkWrap: true,
-              //                 physics: NeverScrollableScrollPhysics(),
-              //                 itemBuilder: (context, index) {
-              //                   return Card(
-              //                     child: Column(
-              //                       children: [
-              //                         Row(
-              //                           mainAxisAlignment:
-              //                           MainAxisAlignment.end,
-              //                           children: [
-              //                             Image.network(
-              //                               'http://10.0.2.2:3000/' +
-              //                                   snapshot.data['data'][index]
-              //                                   ['image'],
-              //                               width: 120,
-              //                               height: 100,
-              //                             ),
-              //                           ],
-              //                         ),
-              //                         UserInfo(
-              //                           isTrue: true,
-              //                           labelName: 'Vehicles Number: ',
-              //                           labelText: snapshot.data['data'][index]
-              //                           ['vehicles_no']
-              //                               .toString(),
-              //                         ),
-              //                         SizedBox(
-              //                           height: 10,
-              //                         ),
-              //                         UserInfo(
-              //                           isTrue: true,
-              //                           labelName: 'Fitness Report Number: ',
-              //                           labelText: snapshot.data['data'][index]
-              //                           ['fitness_report_number']
-              //                               .toString(),
-              //                         ),
-              //                         SizedBox(
-              //                           height: 10,
-              //                         ),
-              //                         UserInfo(
-              //                           isTrue: true,
-              //                           labelName: 'Insurance Number: ',
-              //                           labelText: snapshot.data['data'][index]
-              //                           ['insurnce_number']
-              //                               .toString(),
-              //                         ),
-              //                         SizedBox(
-              //                           height: 10,
-              //                         ),
-              //                         UserInfo(
-              //                           isTrue: true,
-              //                           labelName: 'Insurance Expired Date: ',
-              //                           labelText: snapshot.data['data'][index]
-              //                           ['insurance_date']
-              //                               .toString(),
-              //                         ),
-              //                         SizedBox(
-              //                           height: 10,
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   );
-              //                 },
-              //                 separatorBuilder: (context, index) {
-              //                   return Divider(
-              //                     height: 2,
-              //                   );
-              //                 },
-              //                 itemCount: snapshot.data['data'].length),
-              //           );
-              //         }
-              //
-              //         return Container();
-              //       },
-              //     ),
-              //   ],
-              // ),
-            ],
+          appBar: AppBar(
+            title: Text('DashBoard'),
+            centerTitle: true,
           ),
-        ),
-        // drawer: userName != null && userImage != null
-        //     ? UserDrawer(
-        //     license: license,
-        //     userName: userName,
-        //     image: userImage,
-        //     nid: widget.nidValue,
-        //     userId: userId.toString())
-        //     : Container(),
-      ),
+          body: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              //  shrinkWrap: true,
+              children: [
+                Container(
+                  child: FutureBuilder<PoliceInfo>(
+                    future: PoliceRepository()
+                        .getPoliceProfile(batchId: widget.batchId),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<PoliceInfo> snapshot) {
+                      print(snapshot.data);
+                      if (snapshot.data == null) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasData) {
+                        return Card(
+                          child: Column(
+                            // physics: NeverScrollableScrollPhysics(),
+                            // shrinkWrap: true,
+                            children: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                              policeInfo(snapshot),
+
+                              Divider(
+                                height: 6,
+                              ),
+                              // if (snapshot.data['license'].isEmpty)
+                              // Container(
+                              //   //  width: 300,
+                              //   child: CustomButton(
+                              //       onPressed: () {},
+                              //       buttonName: 'Apply For Driving License'),
+                              // ),
+                              //  if (snapshot.data['license'].isNotEmpty)
+                              //  userLicense(snapshot),
+
+                              // Text(DateTime.parse(snapshot.data['userInfo']['dob'].toString())),
+
+                              Divider(
+                                height: 6,
+                              ),
+                              //if (snapshot.data['license'].isNotEmpty)
+                              // userVehicle(snapshot),
+                            ],
+                          ),
+                        );
+                      }
+
+                      return Container();
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                // Column(
+                //   children: [
+                //     Text(
+                //       "Vehicle Information",
+                //       style: TextStyle(fontSize: 20, color: Colors.blueAccent),
+                //     ),
+                //     SizedBox(
+                //       height: 20,
+                //     ),
+                //     FutureBuilder(
+                //       future: NetworkHelper()
+                //           .getVehicleInformation(nid: widget.nidValue),
+                //       builder: (BuildContext context, AsyncSnapshot snapshot) {
+                //         print(snapshot.data);
+                //         if (snapshot.data == null) {
+                //           return Center(
+                //             child: CircularProgressIndicator(),
+                //           );
+                //         } else if (snapshot.hasData) {
+                //           return Container(
+                //             child: ListView.separated(
+                //                 shrinkWrap: true,
+                //                 physics: NeverScrollableScrollPhysics(),
+                //                 itemBuilder: (context, index) {
+                //                   return Card(
+                //                     child: Column(
+                //                       children: [
+                //                         Row(
+                //                           mainAxisAlignment:
+                //                           MainAxisAlignment.end,
+                //                           children: [
+                //                             Image.network(
+                //                               'http://10.0.2.2:3000/' +
+                //                                   snapshot.data['data'][index]
+                //                                   ['image'],
+                //                               width: 120,
+                //                               height: 100,
+                //                             ),
+                //                           ],
+                //                         ),
+                //                         UserInfo(
+                //                           isTrue: true,
+                //                           labelName: 'Vehicles Number: ',
+                //                           labelText: snapshot.data['data'][index]
+                //                           ['vehicles_no']
+                //                               .toString(),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 10,
+                //                         ),
+                //                         UserInfo(
+                //                           isTrue: true,
+                //                           labelName: 'Fitness Report Number: ',
+                //                           labelText: snapshot.data['data'][index]
+                //                           ['fitness_report_number']
+                //                               .toString(),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 10,
+                //                         ),
+                //                         UserInfo(
+                //                           isTrue: true,
+                //                           labelName: 'Insurance Number: ',
+                //                           labelText: snapshot.data['data'][index]
+                //                           ['insurnce_number']
+                //                               .toString(),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 10,
+                //                         ),
+                //                         UserInfo(
+                //                           isTrue: true,
+                //                           labelName: 'Insurance Expired Date: ',
+                //                           labelText: snapshot.data['data'][index]
+                //                           ['insurance_date']
+                //                               .toString(),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 10,
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   );
+                //                 },
+                //                 separatorBuilder: (context, index) {
+                //                   return Divider(
+                //                     height: 2,
+                //                   );
+                //                 },
+                //                 itemCount: snapshot.data['data'].length),
+                //           );
+                //         }
+                //
+                //         return Container();
+                //       },
+                //     ),
+                //   ],
+                // ),
+              ],
+            ),
+          ),
+          drawer: userName != null && userImage != null
+              ? PoliceDrawer(
+                  image: userImage,
+                  userName: userName,
+                )
+              : Container()),
     );
   }
 
@@ -357,14 +355,24 @@ class _PoliceHomePageState extends State<PoliceHomePage> {
                 ),
                 UserInfo(
                   isTrue: false,
-                  labelName: 'Mobile',
-                  labelText: snapshot.data!.policeInfo!.name.toString(),
+                  labelName: 'Batch Id',
+                  labelText: snapshot.data!.policeInfo!.id.toString(),
                 ),
-                // UserInfo(
-                //   labelName: 'Present Address',
-                //   labelText: snapshot.data['userInfo']
-                //       ['p_address'],
-                // ),
+                UserInfo(
+                  labelName: 'Position',
+                  labelText: snapshot.data!.policeInfo!.position,
+                  isTrue: false,
+                ),
+                UserInfo(
+                  labelName: 'District',
+                  labelText: snapshot.data!.policeInfo!.district,
+                  isTrue: false,
+                ),
+                UserInfo(
+                  labelName: 'Thana',
+                  labelText: snapshot.data!.policeInfo!.thana,
+                  isTrue: false,
+                ),
                 SizedBox(
                   height: 10,
                 ),
@@ -389,7 +397,8 @@ class _PoliceHomePageState extends State<PoliceHomePage> {
               ],
             ),
             Image.network(
-              'http://10.0.2.2:3000/' + snapshot.data!.policeInformation!.image!,
+              'http://10.0.2.2:3000/' +
+                  snapshot.data!.policeInformation!.image!,
               width: 100,
               height: 100,
               fit: BoxFit.cover,
@@ -400,3 +409,5 @@ class _PoliceHomePageState extends State<PoliceHomePage> {
     );
   }
 }
+
+

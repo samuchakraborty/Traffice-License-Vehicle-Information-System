@@ -50,8 +50,8 @@ class _SignInState extends State<SignIn> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                       // alignment: Alignment.topCenter,
-                       // margin: EdgeInsets.only(right: 120),
+                        // alignment: Alignment.topCenter,
+                        // margin: EdgeInsets.only(right: 120),
                         child: Text(
                           "Log In",
                           style: h1TextStyle,
@@ -61,25 +61,23 @@ class _SignInState extends State<SignIn> {
                       SizedBox(
                         height: 40,
                       ),
-
-                      if(widget.isPolice)
-                      CustomTextField(
-                        labelName: 'Batch Number',
-                        hintTextName: 'Enter Your Batch Number',
-                        textInputType: TextInputType.number,
-                        onChangedFunction: (value) {
-                          policeBatchId = value;
-                        },
-                        validateFunction: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Enter Your Batch Number';
-                          }
-                        },
-                      ),
+                      if (widget.isPolice)
+                        CustomTextField(
+                          labelName: 'Batch Number',
+                          hintTextName: 'Enter Your Batch Number',
+                          textInputType: TextInputType.number,
+                          onChangedFunction: (value) {
+                            policeBatchId = value;
+                          },
+                          validateFunction: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please Enter Your Batch Number';
+                            }
+                          },
+                        ),
                       SizedBox(
                         height: 40,
                       ),
-
                       CustomTextField(
                         labelName: 'Mobile',
                         hintTextName: 'Enter Your mobile Number',
@@ -152,9 +150,7 @@ class _SignInState extends State<SignIn> {
                               };
                               print(data);
                               PoliceRepository().policeLogin(data: data).then(
-                                    (value) =>
-
-                                        Navigator.push(
+                                    (value) => Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => PoliceHomePage(

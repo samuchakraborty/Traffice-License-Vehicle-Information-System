@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traffice_information_system/police/models/police_model.dart';
+import 'package:traffice_information_system/police/models/vehicle_model.dart';
 
 import '../../url.dart';
 
@@ -46,36 +49,22 @@ class PoliceRepository {
     // return null;
   }
 
-  // Future applyLicense({vehicleNumber}) async {
-  //   final response = await Dio().post(
-  //     userApplyLicenseUrl, data: (data),
-  //     //   options: Options(contentType:("application/x-www-form-urlencoded"))
-  //     options: Options(contentType: Headers.formUrlEncodedContentType),
-  //   );
-  //   //final jsonResponse = jsonDecode(response.data);
-  //   //print(response);
-  //
-  //   if (response.statusCode == 200) {
-  //     // print(response.statusCode);
-  //     //  print(url);
-  //     return response.data;
-  //   } else {
-  //     throw Exception('expression is occur');
-  //   }
-  // }
-
   Future getVehicleInformation({vehicleNumber}) async {
-    final response = await Dio().post(
-      searchVehicleUrl,
-      queryParameters: {'vc': vehicleNumber},
+    final response = await http.get(
+      Uri.parse(searchVehicleUrl + '?vc=$vehicleNumber'),
     );
     //final jsonResponse = jsonDecode(response.data);
-    print(response);
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
       print(response.statusCode);
+      print(response.body);
+      return VehicleInfo.fromJson(jsonDecode(response.body));
+    } else if (response.statusCode == 404) {
+      print(response.statusCode);
+      print(response.body);
 
-      return response.data;
+      return (response.body);
     } else {
       throw Exception('expression is occur');
     }
