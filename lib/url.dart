@@ -23,3 +23,14 @@ const String searchVehicleUrl =
 
 const String searchLicenseUrl =
     baseUrl + "police/getLicense"; // query params = license
+
+/// admin
+///
+
+const String adminGetUserUrl =
+    baseUrl + "admin/user"; // query params = license
+
+const String adminGetVechileUrl =
+    baseUrl + "admin/vehicle";
+
+

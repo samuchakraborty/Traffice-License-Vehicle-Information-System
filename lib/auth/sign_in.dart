@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:traffice_information_system/admin/screen/admin_dash_board.dart';
 import 'package:traffice_information_system/constants.dart';
 import 'package:traffice_information_system/police/screens/police_home_screen.dart';
 import 'package:traffice_information_system/police/services/police_services.dart';
@@ -158,6 +159,13 @@ class _SignInState extends State<SignIn> {
                                       ),
                                     ),
                                   );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AdminDashBoard(),
+                                ),
+                              );
                             }
                           }
                         },
