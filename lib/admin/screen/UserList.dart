@@ -86,14 +86,58 @@ class _UserListState extends State<UserList> {
                               Container(
                                 child: Text(
                                   snapshot.data!.license![index].lcStatus!,
-                                  style: TextStyle(color: Colors.red),
+                                  style: TextStyle(
+                                      color: snapshot.data!.license![index]
+                                                  .lcStatus! ==
+                                              'Active'
+                                          ? Colors.green
+                                          : Colors.red),
                                 ),
                               ),
                             ],
                           ),
+                          SizedBox(
+                            height: 10,
+                          ),
 
-
-                          SizedBox(height: 20,),
+                          if(snapshot.data!.license![index]
+                              .lcStatus! !=
+                              'Active')
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  AdminRepository()
+                                      .updateLicenseInformation(
+                                          licenseNo: snapshot
+                                              .data!.license![index].lcNo)
+                                      .then((value) {
+                                    if (value == true) {
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => UserList(),
+                                        ),
+                                      );
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  child: Text(
+                                    'Change Status  ',
+                                    style: TextStyle(
+                                        color: Colors.orangeAccent,
+                                        fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
                         ],
                       ),
                     );

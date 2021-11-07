@@ -135,11 +135,14 @@ class UserDrawer extends StatelessWidget {
             labelText: 'Pay Bill',
             iconsOptional: Icons.arrow_forward_ios_sharp,
             route: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => SSL(),
-                ),
-              );
+
+              SSLL().sslCommerzCustomizedCall();
+              //
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (_) => SSL(),
+              //   ),
+              // );
             },
           ),
           SizedBox(

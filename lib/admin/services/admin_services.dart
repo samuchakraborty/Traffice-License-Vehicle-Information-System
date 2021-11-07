@@ -34,4 +34,38 @@ class AdminRepository {
       throw Exception('expression is occur');
     }
   }
+
+  Future adminLogin({data}) async {
+    print(adminLoginUrl);
+    final response = await Dio().post(
+      adminLoginUrl, data: FormData.fromMap(data),
+      // options: Options(contentType:("application/x-www-form-urlencoded"))
+      // options: Options(contentType: Headers.formUrlEncodedContentType),
+    );
+    print(adminLoginUrl);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('expression is occur');
+    }
+
+    // print(response.body);
+  }
+
+  Future updateLicenseInformation({licenseNo}) async {
+    print(updateLicenseUrl);
+    final response = await Dio().post(updateLicenseUrl,
+        queryParameters: {'license': licenseNo}
+        // options: Options(contentType:("application/x-www-form-urlencoded"))
+        // options: Options(contentType: Headers.formUrlEncodedContentType),
+        );
+    print(response);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('expression is occur');
+    }
+
+    // print(response.body);
+  }
 }

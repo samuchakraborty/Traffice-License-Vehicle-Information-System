@@ -34,3 +34,8 @@ const String adminGetVechileUrl =
     baseUrl + "admin/vehicle";
 
 
+const String adminLoginUrl =
+    baseUrl + "admin/login";
+
+const String updateLicenseUrl =
+    baseUrl + "admin/updateLicense";
