@@ -27,7 +27,7 @@ class _AddVehicleByAdminState extends State<AddVehicleByAdmin> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Your vehicle  Information"),
+        title: Text("Add vehicle  Information"),
       ),
       body: SingleChildScrollView(
         child: Container(

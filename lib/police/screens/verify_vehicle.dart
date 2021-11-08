@@ -103,21 +103,23 @@ class VerifyVehicle extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        Column(
-                          children: [
-                            Image.network(
-                              'http://10.0.2.2:3000/' +
-                                  data.searchResults!.vehicleInformation![0]
-                                      .image
-                                      .toString(),
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Text(
-                              "Vehicle Image",
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Image.network(
+                                'http://10.0.2.2:3000/' +
+                                    data.searchResults!.vehicleInformation![0]
+                                        .image
+                                        .toString(),
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                              Text(
+                                "Vehicle Image",
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
