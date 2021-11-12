@@ -48,7 +48,10 @@ class VerifyLicense extends ConsumerWidget {
               Column(
 
                 children: [
-                  Center(child: Text(data.searchResults!.msg.toString(), style: TextStyle(color: Colors.redAccent, fontSize: 18),)),
+                  Center(child: Text(data.searchResults!.msg.toString(), style: TextStyle(color:
+                  data.searchResults!.msg.toString() == 'License not found'? Colors.red:
+
+                  Colors.green, fontSize: 18),)),
                 ],
               ),
 
@@ -58,6 +61,7 @@ class VerifyLicense extends ConsumerWidget {
                 vehicleController!.text != '')
               Card(
                 elevation: 4,
+                margin: EdgeInsets.only(bottom: 10),
                 child: ListView(
                   shrinkWrap: true,
                   children: [
@@ -92,10 +96,11 @@ class VerifyLicense extends ConsumerWidget {
                         children: [
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
-                                  Text('User Name: ',  style:
+                                  Text('Name: ',  style:
                                   TextStyle(fontSize: 14, color: Colors.black),),
                                   Text(
                                     data.searchResults!.licenseInformation![0].name
@@ -107,7 +112,7 @@ class VerifyLicense extends ConsumerWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text('User Mobile: ',
+                                  Text('Mobile: ',
                                     style:
                                     TextStyle(fontSize: 15, color: Colors.black),),
                                   Text(
@@ -118,7 +123,7 @@ class VerifyLicense extends ConsumerWidget {
                               ),
                               Row(
                                 children: [
-                                  Text('User National Id Card: '),
+                                  Text('National Id Card No: '),
                                   Text(
                                     data.searchResults!.userInformation![0].nId
                                         .toString(),
@@ -160,6 +165,29 @@ class VerifyLicense extends ConsumerWidget {
                               ),
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Expire Date: "),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          DateFormat().add_yMMMd().format(
+                            DateTime.parse(data.searchResults!
+                                .licenseInformation![0].lcExpiredDate
+                                .toString()),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10,
                     ),
                   ],
                 ),
