@@ -5,6 +5,8 @@
 /// User Url
 const String baseUrl = "http://10.0.2.2:3000/";
 const String userLoginUrl = baseUrl + "user/signin";
+
+const String userSignUpUrl = baseUrl + "user/singup";
 const String userProfileUrl = baseUrl + "user/userprofile/";
 
 const String userApplyLicenseUrl = baseUrl + "user/applyLicense";

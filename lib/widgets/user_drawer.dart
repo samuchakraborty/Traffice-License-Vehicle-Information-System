@@ -9,7 +9,7 @@ import '../constants.dart';
 
 class UserDrawer extends StatelessWidget {
   final String? userName, image, nid;
-  final String userId;
+  final String? userId;
   final license;
 
   UserDrawer(
@@ -21,7 +21,7 @@ class UserDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(license);
+    print(license[0]);
     return Drawer(
       child: Column(
         children: [
@@ -73,7 +73,7 @@ class UserDrawer extends StatelessWidget {
           SizedBox(
             height: 30,
           ),
-          //  if(license.isEmpty)
+            if(license.isEmpty)
           CustomDrawerItem(
             isOptional: false,
             icon: CupertinoIcons.person_alt,
@@ -85,7 +85,7 @@ class UserDrawer extends StatelessWidget {
                       userName: userName!,
                       userImage: image!,
                       nid: nid!,
-                      userId: userId),
+                      userId: userId!),
                 ),
               );
             },
@@ -121,7 +121,7 @@ class UserDrawer extends StatelessWidget {
                       userName: userName!,
                       userImage: image!,
                       nid: nid!,
-                      userId: userId),
+                      userId: userId!),
                 ),
               );
             },

@@ -34,7 +34,7 @@ class _UserHomePageState extends State<UserHomePage> {
       setState(() {
         userName = value['userInfo']['u_name'];
         userImage = value['userInfo']['image'];
-        userId = value['userInfo']['license'];
+        userId = value['userInfo']['id'];
         license = value['license'];
       });
     });
@@ -56,7 +56,7 @@ class _UserHomePageState extends State<UserHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // call();
+  //  call();
 
     print(userId);
     return SafeArea(
@@ -65,170 +65,181 @@ class _UserHomePageState extends State<UserHomePage> {
           title: Text('User DashBoard'),
           centerTitle: true,
         ),
-        body: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            //  shrinkWrap: true,
-            children: [
-              Container(
-                child: FutureBuilder(
-                  future:
-                      NetworkHelper().userProfile(nidValue: widget.nidValue),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    print(snapshot.data);
-                    if (snapshot.data == null) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasData) {
-                      return Card(
-                        child: Column(
-                          // physics: NeverScrollableScrollPhysics(),
-                          // shrinkWrap: true,
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            userInfo(snapshot),
-
-                            // Container(
-                            //   margin: EdgeInsets.only(left: 10, right: 10),
-                            //   padding: EdgeInsets.all(10),
-                            //   child: Text('Present Address:  ' +
-                            //       snapshot.data['userInfo']['p_address']),
-                            // ),
-                            Divider(
-                              height: 6,
-                            ),
-                            if (snapshot.data['license'].isEmpty)
-                              Container(
-                                width: 120,
-                                child: CustomButton(
-                                    onPressed: () {},
-                                    buttonName: 'Apply For Driving License'),
-                              ),
-                            if (snapshot.data['license'].isNotEmpty)
-                              userLicense(snapshot),
-
-                            // Text(DateTime.parse(snapshot.data['userInfo']['dob'].toString())),
-
-                            Divider(
-                              height: 6,
-                            ),
-                            //if (snapshot.data['license'].isNotEmpty)
-                            // userVehicle(snapshot),
-                          ],
-                        ),
-                      );
-                    }
-
-                    return Container();
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Column(
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: ListView(
+                // shrinkWrap: true,
                 children: [
-                  Text(
-                    "Vehicle Information",
-                    style: TextStyle(fontSize: 20, color: Colors.blueAccent),
+                  Container(
+                   // height: 360,
+                    child: FutureBuilder(
+                      future:
+                          NetworkHelper().userProfile(nidValue: widget.nidValue),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        print(snapshot.data);
+                        if (snapshot.data == null) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasData) {
+                          return Card(
+                            child: Column(
+                              // physics: NeverScrollableScrollPhysics(),
+                              // shrinkWrap: true,
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                userInfo(snapshot),
+
+                                // Container(
+                                //   margin: EdgeInsets.only(left: 10, right: 10),
+                                //   padding: EdgeInsets.all(10),
+                                //   child: Text('Present Address:  ' +
+                                //       snapshot.data['userInfo']['p_address']),
+                                // ),
+                                Divider(
+                                  height: 6,
+                                ),
+                                if (snapshot.data['license'].isEmpty)
+                                  Container(
+                                  padding: EdgeInsets.all(10),
+
+                                      child: Text("You don't have license yet", style: TextStyle(fontSize: 14),)),
+                                  // Container(
+                                  //   //width: 120,
+                                  //   child: CustomButton(
+                                  //       onPressed: () {},
+                                  //       buttonName: 'Apply For Driving License'),
+                                  //),
+                                if (snapshot.data['license'].isNotEmpty)
+                                  userLicense(snapshot),
+
+                                // Text(DateTime.parse(snapshot.data['userInfo']['dob'].toString())),
+
+                                Divider(
+                                  height: 6,
+                                ),
+                                //if (snapshot.data['license'].isNotEmpty)
+                                // userVehicle(snapshot),
+                              ],
+                            ),
+                          );
+                        }
+
+                        return Container();
+                      },
+                    ),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  FutureBuilder(
-                    future: NetworkHelper()
-                        .getVehicleInformation(nid: widget.nidValue),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      print(snapshot.data);
-                      if (snapshot.data == null) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (snapshot.hasData) {
-                        return Container(
-                          child: ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return Card(
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Image.network(
-                                            'http://10.0.2.2:3000/' +
-                                                snapshot.data['data'][index]
-                                                    ['image'],
-                                            width: 120,
-                                            height: 100,
-                                          ),
-                                        ],
-                                      ),
-                                      UserInfo(
-                                        isTrue: true,
-                                        labelName: 'Vehicles Number: ',
-                                        labelText: snapshot.data['data'][index]
-                                                ['vehicles_no']
-                                            .toString(),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      UserInfo(
-                                        isTrue: true,
-                                        labelName: 'Fitness Report Number: ',
-                                        labelText: snapshot.data['data'][index]
-                                                ['fitness_report_number']
-                                            .toString(),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      UserInfo(
-                                        isTrue: true,
-                                        labelName: 'Insurance Number: ',
-                                        labelText: snapshot.data['data'][index]
-                                                ['insurnce_number']
-                                            .toString(),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      UserInfo(
-                                        isTrue: true,
-                                        labelName: 'Insurance Expired Date: ',
-                                        labelText: snapshot.data['data'][index]
-                                                ['insurance_date']
-                                            .toString(),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return Divider(
-                                  height: 2,
-                                );
-                              },
-                              itemCount: snapshot.data['data'].length),
-                        );
-                      }
 
-                      return Container();
-                    },
-                  ),
+                      FutureBuilder(
+                        future: NetworkHelper()
+                            .getVehicleInformation(nid: widget.nidValue),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          print(snapshot.data);
+                          if (snapshot.data == null) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.data != null) {
+                            return Column(
+                              children: [
+                                snapshot.data['data'].length != 0?      Text(
+                                  "Your Vehicle Information",
+                                  style: TextStyle(fontSize: 20, color: Colors.blueAccent),
+                                ): Container(),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                ListView.separated(
+                                    shrinkWrap: true,
+                                   // physics: AlwaysScrollableScrollPhysics(),
+
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return Card(
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Image.network(
+                                                  'http://10.0.2.2:3000/' +
+                                                      snapshot.data['data'][index]
+                                                          ['image'],
+                                                  width: 120,
+                                                  height: 100,
+                                                ),
+                                              ],
+                                            ),
+                                            UserInfo(
+                                              isTrue: true,
+                                              labelName: 'Vehicles Number: ',
+                                              labelText: snapshot.data['data'][index]
+                                                      ['vehicles_no']
+                                                  .toString(),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            UserInfo(
+                                              isTrue: true,
+                                              labelName: 'Fitness Report Number: ',
+                                              labelText: snapshot.data['data'][index]
+                                                      ['fitness_report_number']
+                                                  .toString(),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            UserInfo(
+                                              isTrue: true,
+                                              labelName: 'Insurance Number: ',
+                                              labelText: snapshot.data['data'][index]
+                                                      ['insurnce_number']
+                                                  .toString(),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            UserInfo(
+                                              isTrue: true,
+                                              labelName: 'Insurance Expired Date: ',
+                                              labelText: snapshot.data['data'][index]
+                                                      ['insurance_date']
+                                                  .toString(),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return Divider(
+                                        height: 2,
+                                      );
+                                    },
+                                    itemCount: snapshot.data['data'].length),
+                              ],
+                            );
+                          }
+
+                          return Container();
+                        },
+                      ),
+
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         drawer: userName != null && userImage != null
             ? UserDrawer(
@@ -392,11 +403,13 @@ class _UserHomePageState extends State<UserHomePage> {
                 )
               ],
             ),
-            Image.network(
-              'http://10.0.2.2:3000/' + snapshot.data['userInfo']['image'],
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
+            Expanded(
+              child: Image.network(
+                'http://10.0.2.2:3000/' + snapshot.data['userInfo']['image'],
+                //width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+              ),
             )
           ],
         ),

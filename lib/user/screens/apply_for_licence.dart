@@ -281,7 +281,15 @@ class _ApplyForLicenceState extends State<ApplyForLicence> {
                 child: CustomButton(
                     onPressed: () {
                       print(_typeOfLicence);
-                      _applyForDL();
+
+                      if(imageFile == null){
+                        print('select image');
+
+                      }else{
+                        _applyForDL();
+
+                      }
+
                     },
                     buttonName: 'Apply For Driving Licence'),
               )
@@ -293,6 +301,7 @@ class _ApplyForLicenceState extends State<ApplyForLicence> {
   }
 
   _applyForDL() async {
+
     FormData formData = FormData.fromMap({
       'uid': widget.userId,
       'name': widget.userName,
@@ -306,7 +315,7 @@ class _ApplyForLicenceState extends State<ApplyForLicence> {
       // 'address': customerAddress,
       // 'active': 1
     });
-
+print(formData.fields);
     print(imageFile!.path.split('/').last);
 
     NetworkHelper().applyLicense(data: formData);

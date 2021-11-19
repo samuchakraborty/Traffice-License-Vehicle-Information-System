@@ -32,6 +32,30 @@ class NetworkHelper extends ChangeNotifier {
     // print(response.body);
   }
 
+  Future signUp({data}) async {
+    final response = await Dio().post(
+      userSignUpUrl, data: FormData.fromMap(data),
+      // options: Options(contentType:("application/x-www-form-urlencoded"))
+      // options: Options(contentType: Headers.formUrlEncodedContentType),
+    );
+
+    print(response);
+
+    if (response.statusCode == 201) {
+      //   print(response.data);
+      // print(url);
+      return response.data['data'];
+    } else {
+      //print('jjj');
+     throw Exception('expression is occur');
+    }
+
+    // print(response.body);
+  }
+
+
+
+
   Future userProfile({nidValue}) async {
     Dio dios = new Dio();
     (dios.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
@@ -59,15 +83,15 @@ class NetworkHelper extends ChangeNotifier {
   }
 
   Future applyLicense({data}) async {
-    String url = baseUrl + '/applyLicense';
-
+    String url = baseUrl + 'applyLicense';
+print(url);
     final response = await Dio().post(
-      url, data: (data),
+      userApplyLicenseUrl, data: (data),
       //   options: Options(contentType:("application/x-www-form-urlencoded"))
-      options: Options(contentType: Headers.formUrlEncodedContentType),
+     options: Options(contentType: Headers.formUrlEncodedContentType),
     );
     //final jsonResponse = jsonDecode(response.data);
-    //print(response);
+    print(response);
 
     if (response.statusCode == 200) {
       // print(response.statusCode);
