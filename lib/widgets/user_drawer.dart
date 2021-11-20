@@ -21,7 +21,7 @@ class UserDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(license[0]);
+ //   print(license[0]);
     return Drawer(
       child: Column(
         children: [

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
+import 'package:traffice_information_system/user/screens/user_home_page.dart';
 import 'package:traffice_information_system/user/services/user_services.dart';
 import 'package:traffice_information_system/widgets/custom_button.dart';
 import 'package:traffice_information_system/widgets/custom_headerButton.dart';
@@ -220,9 +221,22 @@ class _AddVechileState extends State<AddVechile> {
       // 'active': 1
     });
 
-    print(imageFile!.path.split('/').last);
+    print(formData.fields);
 
-    NetworkHelper().addVehicle(data: formData).then((value) => print(value));
+    NetworkHelper().addVehicle(data: formData).then((value) =>
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserHomePage(
+              nidValue: widget.nid,
+            ),
+          ),
+        ),
+
+
+
+
+    );
     // dio.Response response =
     // await CustomerRepository.addNewCustomer(
     //     data: formData);

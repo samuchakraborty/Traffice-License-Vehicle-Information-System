@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
+import 'package:traffice_information_system/user/screens/user_home_page.dart';
 import 'package:traffice_information_system/user/services/user_services.dart';
 import 'package:traffice_information_system/widgets/custom_button.dart';
 import 'package:traffice_information_system/widgets/custom_headerButton.dart';
@@ -282,14 +283,11 @@ class _ApplyForLicenceState extends State<ApplyForLicence> {
                     onPressed: () {
                       print(_typeOfLicence);
 
-                      if(imageFile == null){
+                      if (imageFile == null) {
                         print('select image');
-
-                      }else{
+                      } else {
                         _applyForDL();
-
                       }
-
                     },
                     buttonName: 'Apply For Driving Licence'),
               )
@@ -301,7 +299,7 @@ class _ApplyForLicenceState extends State<ApplyForLicence> {
   }
 
   _applyForDL() async {
-
+    var examDate = DateTime.now().add(Duration(days: 10));
     FormData formData = FormData.fromMap({
       'uid': widget.userId,
       'name': widget.userName,
@@ -310,15 +308,24 @@ class _ApplyForLicenceState extends State<ApplyForLicence> {
       'profileFile': await dio.MultipartFile.fromFile(imageFile!.path,
           filename: imageFile!.path.split('/').last),
       'user_type': _myQulifican.join(','),
-
+      'examDate': examDate.toString(),
       'application_date': DateTime.now().toString(),
       // 'address': customerAddress,
       // 'active': 1
     });
-print(formData.fields);
+    print(formData.fields);
     print(imageFile!.path.split('/').last);
 
-    NetworkHelper().applyLicense(data: formData);
+    NetworkHelper().applyLicense(data: formData).then(
+          (value) => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserHomePage(
+                nidValue: widget.nid,
+              ),
+            ),
+          ),
+        );
     // dio.Response response =
     // await CustomerRepository.addNewCustomer(
     //     data: formData);
