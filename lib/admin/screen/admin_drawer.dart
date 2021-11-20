@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:traffice_information_system/admin/screen/vehicle_list.dart';
 import 'package:traffice_information_system/police/screens/verify_license.dart';
 import 'package:traffice_information_system/police/screens/verify_vehicle.dart';
-import 'package:traffice_information_system/user/screens/add_vehilec_info.dart';
-import 'package:traffice_information_system/user/screens/apply_for_licence.dart';
-import 'package:traffice_information_system/user/screens/quiz/quizbrain.dart';
-import 'package:traffice_information_system/user/screens/ssl_comerz.dart';
 
+
+import '../../user_police_admin.dart';
 import 'UserList.dart';
 import 'add_vechile_by_admin.dart';
 
@@ -173,10 +171,20 @@ class AdminDrawer extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text(
-                        'Log Out',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserOrPoliceOrAdmin(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Log Out',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ],
                   ),
