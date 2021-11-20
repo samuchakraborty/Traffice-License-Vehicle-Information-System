@@ -7,6 +7,7 @@ import 'package:traffice_information_system/user/screens/quiz/quizbrain.dart';
 import 'package:traffice_information_system/user/screens/ssl_comerz.dart';
 
 import '../constants.dart';
+import '../user_police_admin.dart';
 
 class UserDrawer extends StatelessWidget {
   final String? userName, image, nid;
@@ -22,7 +23,7 @@ class UserDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- //   print(license[0]);
+    //   print(license[0]);
     return Drawer(
       child: Column(
         children: [
@@ -74,24 +75,24 @@ class UserDrawer extends StatelessWidget {
           SizedBox(
             height: 30,
           ),
-            if(license.isEmpty)
-          CustomDrawerItem(
-            isOptional: false,
-            icon: CupertinoIcons.person_alt,
-            labelText: 'Apply For Driving License',
-            route: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => ApplyForLicence(
-                      userName: userName!,
-                      userImage: image!,
-                      nid: nid!,
-                      userId: userId!),
-                ),
-              );
-            },
-            iconsOptional: Icons.arrow_forward_ios_sharp,
-          ),
+          if (license.isEmpty)
+            CustomDrawerItem(
+              isOptional: false,
+              icon: CupertinoIcons.person_alt,
+              labelText: 'Apply For Driving License',
+              route: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ApplyForLicence(
+                        userName: userName!,
+                        userImage: image!,
+                        nid: nid!,
+                        userId: userId!),
+                  ),
+                );
+              },
+              iconsOptional: Icons.arrow_forward_ios_sharp,
+            ),
           SizedBox(
             height: 10,
           ),
@@ -136,7 +137,6 @@ class UserDrawer extends StatelessWidget {
             labelText: 'Pay Bill',
             iconsOptional: Icons.arrow_forward_ios_sharp,
             route: () {
-
               SSLL().sslCommerzCustomizedCall();
               //
               // Navigator.of(context).push(
@@ -154,9 +154,7 @@ class UserDrawer extends StatelessWidget {
             icon: CupertinoIcons.mail,
             labelText: 'Report For Stolen Vehicle',
             iconsOptional: Icons.arrow_forward_ios_sharp,
-            route: (){
-
-
+            route: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => UserReport(
@@ -166,8 +164,6 @@ class UserDrawer extends StatelessWidget {
                       userId: userId!),
                 ),
               );
-
-
             },
           ),
           SizedBox(
@@ -192,10 +188,20 @@ class UserDrawer extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text(
-                        'Log Out',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserOrPoliceOrAdmin(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Log Out',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ],
                   ),
