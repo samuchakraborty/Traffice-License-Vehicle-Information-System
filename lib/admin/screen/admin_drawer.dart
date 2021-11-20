@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:traffice_information_system/admin/screen/stolen_vehicle_information.dart';
 import 'package:traffice_information_system/admin/screen/vehicle_list.dart';
 import 'package:traffice_information_system/police/screens/verify_license.dart';
 import 'package:traffice_information_system/police/screens/verify_vehicle.dart';
@@ -145,10 +146,20 @@ class AdminDrawer extends StatelessWidget {
           ),
           CustomDrawerItem(
             isOptional: false,
-            icon: CupertinoIcons.mail,
-            labelText: 'Check Report',
+            icon: CupertinoIcons.person_alt,
+            labelText: 'Stolen Vehicle Information',
+            route: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => StolenVehicleList()));
+            },
             iconsOptional: Icons.arrow_forward_ios_sharp,
           ),
+          // CustomDrawerItem(
+          //   isOptional: false,
+          //   icon: CupertinoIcons.mail,
+          //   labelText: 'Check Report',
+          //   iconsOptional: Icons.arrow_forward_ios_sharp,
+          // ),
           SizedBox(
             height: 10,
           ),

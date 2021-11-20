@@ -174,10 +174,15 @@ class VerifyLicense extends ConsumerWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        Text("Expire Date: "),
+                        if(data.searchResults!
+                            .licenseInformation![0].lcExpiredDate !=null)
+
+                          Text("Expire Date: "),
                         SizedBox(
                           width: 10,
                         ),
+                        if(data.searchResults!
+                            .licenseInformation![0].lcExpiredDate !=null)
                         Text(
                           DateFormat().add_yMMMd().format(
                             DateTime.parse(data.searchResults!

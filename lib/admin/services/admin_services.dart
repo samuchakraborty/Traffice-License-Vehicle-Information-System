@@ -5,6 +5,25 @@ import 'package:traffice_information_system/admin/models/vehicle_model.dart';
 import '../../url.dart';
 
 class AdminRepository {
+
+  Future getStolenInformation() async {
+    final response = await Dio().get(stolenVehicleInformation);
+    //final jsonResponse = jsonDecode(response.data);
+    print('samu');
+    print(response.data);
+
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+
+      return response.data;
+    } else {
+      throw Exception('expression is occur');
+    }
+  }
+
+
+
+
   Future<User> getUserInformation() async {
     final response = await Dio().get(adminGetUserUrl);
     //final jsonResponse = jsonDecode(response.data);

@@ -26,6 +26,7 @@ const String searchVehicleUrl =
 const String searchLicenseUrl =
     baseUrl + "police/getLicense"; // query params = license
 
+const String stolenVehicleInformation = baseUrl + 'police/getStolen';
 /// admin
 ///
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:traffice_information_system/admin/screen/stolen_vehicle_information.dart';
 import 'package:traffice_information_system/police/screens/verify_license.dart';
 import 'package:traffice_information_system/police/screens/verify_vehicle.dart';
 import 'package:traffice_information_system/user_police_admin.dart';
@@ -89,6 +90,17 @@ class PoliceDrawer extends StatelessWidget {
             route: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => VerifyVehicle()));
+            },
+            iconsOptional: Icons.arrow_forward_ios_sharp,
+          ),
+
+          CustomDrawerItem(
+            isOptional: false,
+            icon: CupertinoIcons.person_alt,
+            labelText: 'Stolen Vehicle Information',
+            route: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => StolenVehicleList()));
             },
             iconsOptional: Icons.arrow_forward_ios_sharp,
           ),
