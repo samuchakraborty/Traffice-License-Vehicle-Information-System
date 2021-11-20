@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:traffice_information_system/admin/screen/stolen_vehicle_information.dart';
 import 'package:traffice_information_system/police/screens/verify_license.dart';
 import 'package:traffice_information_system/police/screens/verify_vehicle.dart';
+import 'package:traffice_information_system/user/model/user_report.dart';
 import 'package:traffice_information_system/user_police_admin.dart';
 import '../../constants.dart';
+import 'fine_vehicle.dart';
 
 class PoliceDrawer extends StatelessWidget {
   final String? userName, image, designation;
@@ -104,9 +106,27 @@ class PoliceDrawer extends StatelessWidget {
             },
             iconsOptional: Icons.arrow_forward_ios_sharp,
           ),
-          // SizedBox(
-          //   height: 10,
-          // ),
+          SizedBox(
+            height: 10,
+          ),
+          CustomDrawerItem(
+            isOptional: false,
+            icon: CupertinoIcons.mail,
+            labelText: 'Fine Vehicle',
+            iconsOptional: Icons.arrow_forward_ios_sharp,
+            route: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => FineReport(
+                      // userName: 'lll',
+                      // userImage: 'http://10.0.2.2:3000/irfan.jpg',
+                      // nid:"22212121",
+                      // userId: '25'
+                  ),
+                ),
+              );
+            },
+          ),
           // CustomDrawerItem(
           //   isOptional: false,
           //   icon: CupertinoIcons.flag,
