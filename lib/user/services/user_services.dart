@@ -120,6 +120,26 @@ print(url);
     }
   }
 
+
+
+  Future report({data}) async {
+    final response = await Dio().post(
+      userReportUrl, data: (data),
+      //   options: Options(contentType:("application/x-www-form-urlencoded"))
+      options: Options(contentType: Headers.formUrlEncodedContentType),
+    );
+    //final jsonResponse = jsonDecode(response.data);
+    print(response);
+
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+
+      return response.data;
+    } else {
+      throw Exception('expression is occur');
+    }
+  }
+
   //user/getVechile
 
   Future getVehicleInformation({nid}) async {

@@ -13,7 +13,7 @@ const String userApplyLicenseUrl = baseUrl + "user/applyLicense";
 
 const String userAddVehicleUrl = baseUrl + "user/addVechile";
 const String userAllVehicleInformationUrl = baseUrl + "user/getVechile/";
-
+const String userReportUrl = baseUrl + "user/userReport";
 /// Police
 ///
 

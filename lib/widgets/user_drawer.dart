@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:traffice_information_system/user/model/user_report.dart';
 import 'package:traffice_information_system/user/screens/add_vehilec_info.dart';
 import 'package:traffice_information_system/user/screens/apply_for_licence.dart';
 import 'package:traffice_information_system/user/screens/quiz/quizbrain.dart';
@@ -151,8 +152,23 @@ class UserDrawer extends StatelessWidget {
           CustomDrawerItem(
             isOptional: false,
             icon: CupertinoIcons.mail,
-            labelText: 'Report',
+            labelText: 'Report For Stolen Vehicle',
             iconsOptional: Icons.arrow_forward_ios_sharp,
+            route: (){
+
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => UserReport(
+                      userName: userName!,
+                      userImage: image!,
+                      nid: nid!,
+                      userId: userId!),
+                ),
+              );
+
+
+            },
           ),
           SizedBox(
             height: 10,
