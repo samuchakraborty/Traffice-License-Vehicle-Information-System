@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:traffice_information_system/auth/sign_in.dart';
+import 'package:traffice_information_system/police/screens/police_home_screen.dart';
+import 'package:traffice_information_system/police/services/police_services.dart';
 import 'package:traffice_information_system/user/screens/user_home_page.dart';
 import 'package:traffice_information_system/user/services/user_services.dart';
 import 'package:traffice_information_system/widgets/custom_button.dart';
@@ -132,6 +134,23 @@ class _SignUpState extends State<SignUp> {
                                               nidValue: value.toString()),
                                     ),
                                   ),
+                            );
+                          }else{
+
+                            Map<String, String> data = {
+                              'batchId': policeBatchId,
+                              'mobile': mobile,
+                              'password': password
+                            };
+                            print(data);
+                            PoliceRepository().policeSignUp(data: data).then(
+                                  (value) => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PoliceHomePage(
+                                      batchId: value.toString()),
+                                ),
+                              ),
                             );
                           }
                         }

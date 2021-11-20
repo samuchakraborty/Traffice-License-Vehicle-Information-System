@@ -13,6 +13,27 @@ import 'package:traffice_information_system/police/models/vehicle_model.dart';
 import '../../url.dart';
 
 class PoliceRepository {
+
+  Future policeSignUp({data}) async {
+    final response = await Dio().post(
+      policeSignUpUrl,
+      //data: FormData.fromMap(data),
+      queryParameters: data,
+      // options: Options(contentType:("application/x-www-form-urlencoded"))
+      // options: Options(contentType: Headers.formUrlEncodedContentType),
+    );
+    print(response);
+    if (response.statusCode == 201) {
+      return response.data['policeId'];
+    } else {
+      throw Exception('expression is occur');
+    }
+
+    // print(response.body);
+  }
+
+
+
   Future policeLogin({data}) async {
     final response = await Dio().post(
       policeLoginUrl, data: FormData.fromMap(data),
