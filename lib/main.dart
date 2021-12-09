@@ -1,11 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traffice_information_system/auth/sign_in.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:traffice_information_system/user_police_admin.dart';
 
-import 'auth/sign_up.dart';
+import 'bb_translations.dart';
+
 
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
@@ -17,11 +18,14 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
+      translations: BBTranslations(),
+
+      locale: Get.deviceLocale,
       home: UserOrPoliceOrAdmin(),
     );
   }

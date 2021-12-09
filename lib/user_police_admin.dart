@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traffice_information_system/auth/sign_in.dart';
 import 'package:traffice_information_system/widgets/check_type_of_user.dart';
 import 'package:traffice_information_system/widgets/custom_button.dart';
@@ -16,6 +19,28 @@ class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
   PROFILE? selectedProfile;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    loadData();
+    super.initState();
+  }
+
+  loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var locale = prefs.getString('locale');
+    print(locale);
+    Locale? locals = Locale('bn_BD');
+    if (locale == null || locale.isEmpty) {
+      locals = Locale('bn', 'BD');
+    } else {
+      var splitedLocal = locale.split('_').toList();
+      locals = Locale(splitedLocal[0], splitedLocal[1]);
+    }
+    Get.updateLocale(locals);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -25,10 +50,10 @@ class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
           children: [
             Container(
               alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(right: 120),
+              margin: EdgeInsets.only(right: 100),
               child: Center(
                 child: Text(
-                  "Please Select Your Account Type",
+                  "ACCOUNT_TYPE_SELECTION".tr,
                   style: h1TextStyle,
                   maxLines: 2,
                 ),
@@ -122,8 +147,6 @@ class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
                           isAdmin: false,
                           isPolice: false,
                           isUser: true,
-
-
                         ),
                       ),
                     );
@@ -137,8 +160,6 @@ class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
                           isAdmin: false,
                           isPolice: true,
                           isUser: false,
-
-
                         ),
                       ),
                     );
@@ -153,8 +174,6 @@ class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
                           isAdmin: true,
                           isPolice: false,
                           isUser: false,
-
-
                         ),
                       ),
                     );

@@ -20,6 +20,9 @@ dependencies:
   dio: ^4.0.0
   flutter_sslcommerz: ^2.0.2-nullsafety.0
   fluttertoast: ^8.0.8
+  get: ^4.3.4
+  shared_preferences: ^2.0.10
+
 
 
 dev_dependencies:
