@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
@@ -14,16 +15,40 @@ class UserOrPoliceOrAdmin extends StatefulWidget {
 }
 
 enum PROFILE { USER, POLICE, ADMIN }
+enum LANGUAGE { ENGLISH, BANGLA }
 
 class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
   PROFILE? selectedProfile;
+  LANGUAGE _selectedLang = LANGUAGE.BANGLA;
+
+  int val = 1;
 
   @override
   void initState() {
     // TODO: implement initState
     loadData();
+    setInitialLanguage();
     super.initState();
   }
+
+  setInitialLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('locale') == 'bn_BD') {
+      setState(() {
+        _selectedLang = LANGUAGE.BANGLA;
+      });
+    }
+    if (prefs.getString('locale') == 'en_US') {
+      setState(() {
+        _selectedLang = LANGUAGE.ENGLISH;
+      });
+    }
+  }
+
+  final locals = [
+    {'name': 'English', 'locale': Locale('en', 'US')},
+    {'name': 'বাংলা', 'locale': Locale('bn', 'BD')},
+  ];
 
   loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,14 +68,137 @@ class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Column(
+      //     children: [
+      //       RadioListTile(
+      //         title: Text('বাংলা'),
+      //         value: LANGUAGE.BANGLA,
+      //         groupValue: _selectedLang,
+      //         onChanged: (LANGUAGE? value) async {
+      //           setState(() {
+      //             _selectedLang = value!;
+      //           });
+      //           SharedPreferences prefs = await SharedPreferences.getInstance();
+      //           if (prefs.getString('locale') == 'bn_BD') {
+      //             var snackBar = SnackBar(
+      //                 content: Text('আপনার ভাষা ইতিমধ্যে পরিবর্তন করা হয়েছে'));
+      //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      //           } else {
+      //             Get.updateLocale(locals[1]['locale'] as Locale);
+      //             //Save Locale state in Shared Preference
+      //             prefs.setString('locale', locals[1]['locale'].toString());
+      //             print(prefs.getString('locale'));
+      //             var snackBar =
+      //             SnackBar(content: Text('আপনার ভাষা পরিবর্তন করা হয়েছে'));
+      //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      //           }
+      //         },
+      //       ),
+      //       SizedBox(
+      //         width: 10,
+      //       ),
+      //       RadioListTile(
+      //         title: Text('English'),
+      //         value: LANGUAGE.ENGLISH,
+      //         groupValue: _selectedLang,
+      //         onChanged: (LANGUAGE? value) async {
+      //           setState(() {
+      //             _selectedLang = value!;
+      //           });
+      //           SharedPreferences prefs = await SharedPreferences.getInstance();
+      //           if (prefs.getString('locale') != 'en_US') {
+      //             Get.updateLocale(locals[0]['locale'] as Locale);
+      //             //Save Locale state in Shared Preference
+      //             prefs.setString('locale', locals[0]['locale'].toString());
+      //
+      //             print(prefs.getString('locale'));
+      //             var snackBar =
+      //             SnackBar(content: Text('Language changed successfullyy'));
+      //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      //           } else {
+      //             print(prefs.getString('locale'));
+      //             var snackBar = SnackBar(
+      //                 content: Text('Your language has already been changed!'));
+      //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      //           }
+      //         },
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: Container(
-        margin: EdgeInsets.only(top: 140, left: 40, right: 30),
+        margin: EdgeInsets.only(top: 10, left: 40, right: 30),
         height: MediaQuery.of(context).size.height,
         child: ListView(
           children: [
+            Row(
+              children: [
+                Expanded(
+                  child: RadioListTile(
+                    title: Text('বাংলা'),
+                    value: LANGUAGE.BANGLA,
+                    groupValue: _selectedLang,
+                    onChanged: (LANGUAGE? value) async {
+                      setState(() {
+                        _selectedLang = value!;
+                      });
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      if (prefs.getString('locale') == 'bn_BD') {
+                        var snackBar = SnackBar(
+                            content: Text('আপনার ভাষা ইতিমধ্যে পরিবর্তন করা হয়েছে'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        Get.updateLocale(locals[1]['locale'] as Locale);
+                        //Save Locale state in Shared Preference
+                        prefs.setString('locale', locals[1]['locale'].toString());
+                        print(prefs.getString('locale'));
+                        var snackBar =
+                        SnackBar(content: Text('আপনার ভাষা পরিবর্তন করা হয়েছে'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: RadioListTile(
+                    title: Text('English'),
+                    value: LANGUAGE.ENGLISH,
+                    groupValue: _selectedLang,
+                    onChanged: (LANGUAGE? value) async {
+                      setState(() {
+                        _selectedLang = value!;
+                      });
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      if (prefs.getString('locale') != 'en_US') {
+                        Get.updateLocale(locals[0]['locale'] as Locale);
+                        //Save Locale state in Shared Preference
+                        prefs.setString('locale', locals[0]['locale'].toString());
+
+                        print(prefs.getString('locale'));
+                        var snackBar =
+                        SnackBar(content: Text('Language changed successfullyy'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        print(prefs.getString('locale'));
+                        var snackBar = SnackBar(
+                            content: Text('Your language has already been changed!'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+
+
             Container(
               alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(right: 100),
+              margin: EdgeInsets.only(right: 100,top: 100),
               child: Center(
                 child: Text(
                   "ACCOUNT_TYPE_SELECTION".tr,
@@ -79,9 +227,9 @@ class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
                     borderColor: Colors.grey,
                     icon: Icons.person_outline_outlined,
                     backgroundColor: selectedProfile == PROFILE.USER
-                        ? Colors.indigoAccent
+                        ? Colors.green
                         : Colors.white,
-                    textName: 'User',
+                    textName: 'USER'.tr,
                   ),
                 ),
                 SizedBox(
@@ -102,9 +250,9 @@ class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
                     borderColor: Colors.grey,
                     icon: Icons.local_police_outlined,
                     backgroundColor: selectedProfile == PROFILE.POLICE
-                        ? Colors.indigoAccent
+                        ? Colors.green
                         : Colors.white,
-                    textName: 'Police',
+                    textName: 'POLICE'.tr,
                   ),
                 ),
                 SizedBox(
@@ -125,9 +273,9 @@ class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
                     borderColor: Colors.grey,
                     icon: Icons.admin_panel_settings_outlined,
                     backgroundColor: selectedProfile == PROFILE.ADMIN
-                        ? Colors.indigoAccent
+                        ? Colors.green
                         : Colors.white,
-                    textName: 'Admin',
+                    textName: 'ADMIN'.tr,
                   ),
                 ),
               ],
@@ -136,7 +284,7 @@ class _UserOrPoliceOrAdminState extends State<UserOrPoliceOrAdmin> {
               height: 60,
             ),
             CustomButton(
-              buttonName: 'Continue',
+              buttonName: 'CONTINUE'.tr,
               onPressed: () {
                 switch (selectedProfile!) {
                   case PROFILE.USER:

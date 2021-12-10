@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:traffice_information_system/admin/screen/admin_dash_board.dart';
 import 'package:traffice_information_system/admin/services/admin_services.dart';
 import 'package:traffice_information_system/constants.dart';
@@ -33,8 +34,8 @@ class _SignInState extends State<SignIn> {
       child: Scaffold(
         appBar: AppBar(
           title: widget.isUser
-              ? Text('User Login')
-              : (widget.isPolice ? Text('Police Login') : Text('Admin Login')),
+              ? Text('User Login'.tr)
+              : (widget.isPolice ? Text('Police Login'.tr) : Text('Admin Login'.tr)),
           centerTitle: true,
         ),
         body: ListView(
@@ -55,7 +56,7 @@ class _SignInState extends State<SignIn> {
                         // alignment: Alignment.topCenter,
                         // margin: EdgeInsets.only(right: 120),
                         child: Text(
-                          "Log In",
+                          "Log In".tr,
                           style: h1TextStyle,
                           maxLines: 2,
                         ),
@@ -65,15 +66,15 @@ class _SignInState extends State<SignIn> {
                       ),
                       if (widget.isPolice)
                         CustomTextField(
-                          labelName: 'Batch Number',
-                          hintTextName: 'Enter Your Batch Number',
+                          labelName: 'Batch Number'.tr,
+                          hintTextName: 'Enter Your Batch Number'.tr,
                           textInputType: TextInputType.number,
                           onChangedFunction: (value) {
                             policeBatchId = value;
                           },
                           validateFunction: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please Enter Your Batch Number';
+                              return 'Please Enter Your Batch Number'.tr;
                             }
                           },
                         ),
@@ -81,10 +82,10 @@ class _SignInState extends State<SignIn> {
                         height: 40,
                       ),
                       CustomTextField(
-                        labelName: widget.isAdmin ? 'Email' : 'Mobile',
+                        labelName: widget.isAdmin ? 'Email'.tr : 'Mobile'.tr,
                         hintTextName: widget.isAdmin
-                            ? 'Enter Your Email Address '
-                            : 'Enter Your mobile Number',
+                            ? 'Enter Your Email Address'.tr
+                            : 'Enter Your mobile Number'.tr,
                         textInputType: TextInputType.number,
                         onChangedFunction: (value) {
                           mobile = value;
@@ -92,8 +93,8 @@ class _SignInState extends State<SignIn> {
                         validateFunction: (value) {
                           if (value == null || value.isEmpty) {
                             return widget.isAdmin
-                                ? 'Please Enter Your Email Address'
-                                : 'Please Enter Your Mobile No';
+                                ? 'Please Enter Your Email Address'.tr
+                                : 'Please Enter Your Mobile No'.tr;
                           }
                         },
                       ),
@@ -101,13 +102,13 @@ class _SignInState extends State<SignIn> {
                         height: 40,
                       ),
                       CustomTextField(
-                        labelName: 'Password',
-                        hintTextName: 'Enter your password',
+                        labelName: 'Password'.tr,
+                        hintTextName: 'Enter your password'.tr,
                         textInputType: TextInputType.visiblePassword,
                         obscureTextTy: _secureText,
                         validateFunction: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please Enter Your Password';
+                            return 'Please Enter Your Password'.tr;
                           }
                         },
                         onChangedFunction: (value) {
@@ -127,7 +128,7 @@ class _SignInState extends State<SignIn> {
                         height: 40,
                       ),
                       CustomButton(
-                        buttonName: 'LOG IN',
+                        buttonName: 'LOG IN'.tr,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             if (widget.isUser) {
@@ -221,11 +222,11 @@ class _SignInState extends State<SignIn> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account? ",
+                        "Don't have an account? ".tr,
                         style: TextStyle(fontSize: 17, fontFamily: 'Poppins'),
                       ),
                       Text(
-                        "Sign up ",
+                        "Sign up ".tr,
                         style: TextStyle(
                             fontSize: 17,
                             color: Colors.red,
