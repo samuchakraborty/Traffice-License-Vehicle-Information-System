@@ -308,7 +308,7 @@ class _ApplyForLicenceState extends State<ApplyForLicence> {
       'profileFile': await dio.MultipartFile.fromFile(imageFile!.path,
           filename: imageFile!.path.split('/').last),
       'user_type': _myQulifican.join(','),
-      'examDate': examDate.toString(),
+      'examDate': null,
       'application_date': DateTime.now().toString(),
       // 'address': customerAddress,
       // 'active': 1

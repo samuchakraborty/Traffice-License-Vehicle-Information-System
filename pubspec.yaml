@@ -22,7 +22,7 @@ dependencies:
   fluttertoast: ^8.0.8
   get: ^4.3.4
   shared_preferences: ^2.0.10
-
+  date_time_picker: ^2.1.0
 
 
 dev_dependencies:
