@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:traffice_information_system/auth/sign_in.dart';
 import 'package:traffice_information_system/police/screens/police_home_screen.dart';
 import 'package:traffice_information_system/police/services/police_services.dart';
@@ -30,7 +31,7 @@ class _SignUpState extends State<SignUp> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: widget.isUser ? Text('User Sign Up') : Text('Police Sign Up'),
+          title: widget.isUser ? Text('User Sign Up'.tr) : Text('Police Sign Up'.tr),
           centerTitle: true,
         ),
         body: Container(
@@ -42,7 +43,7 @@ class _SignUpState extends State<SignUp> {
                 margin: EdgeInsets.only(right: 120),
                 child: Center(
                   child: Text(
-                    "Create Account",
+                    "Create Account".tr,
                     style: h1TextStyle,
                     maxLines: 2,
                   ),
@@ -57,11 +58,11 @@ class _SignUpState extends State<SignUp> {
                   children: [
                     CustomTextField(
                       labelName: widget.isUser
-                          ? 'Nid Card Number'
-                          : 'Police Batch Number',
+                          ? 'Nid Card Number'.tr
+                          : 'Police Batch Number'.tr,
                       hintTextName: widget.isUser
-                          ? 'Enter Your Nid Value'
-                          : 'Enter Your Batch Number',
+                          ? 'Enter Your Nid Value'.tr
+                          : 'Enter Your Batch Number'.tr,
                       textInputType: TextInputType.text,
                       onChangedFunction: (value) {
                         //  print(value);
@@ -76,9 +77,9 @@ class _SignUpState extends State<SignUp> {
                       height: 40,
                     ),
                     CustomTextField(
-                      labelName: 'Mobile Number',
-                      hintTextName: 'Enter Your Mobile Number',
-                      textInputType: TextInputType.emailAddress,
+                      labelName: 'Mobile'.tr,
+                      hintTextName: 'Enter Your mobile Number'.tr,
+                      textInputType: TextInputType.number,
                       onChangedFunction: (value) {
                         //print(value);
                         mobile = value;
@@ -88,8 +89,8 @@ class _SignUpState extends State<SignUp> {
                       height: 40,
                     ),
                     CustomTextField(
-                      labelName: 'Password',
-                      hintTextName: 'Enter your password',
+                      labelName: 'Password'.tr,
+                      hintTextName: 'Enter your password'.tr,
                       textInputType: TextInputType.visiblePassword,
                       obscureTextTy: _secureText,
                       onChangedFunction: (value) {
@@ -109,7 +110,7 @@ class _SignUpState extends State<SignUp> {
                       height: 40,
                     ),
                     CustomButton(
-                      buttonName: 'SIGN UP',
+                      buttonName: 'SIGN UP'.tr,
                       onPressed: () {
                         // Navigator.push(
                         //   context, MaterialPageRoute(builder: (context) => HomePage(),),);
@@ -162,33 +163,33 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 height: 30,
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => SignIn(),
-                  //   ),
-                  // );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Already have an account? ",
-                      style: TextStyle(fontSize: 17),
-                    ),
-                    Text(
-                      "Log In ",
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ],
-                ),
-              )
+              // GestureDetector(
+              //   onTap: () {
+              //     Navigator.pop(context);
+              //     // Navigator.push(
+              //     //   context,
+              //     //   MaterialPageRoute(
+              //     //     builder: (context) => SignIn(),
+              //     //   ),
+              //     // );
+              //   },
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text(
+              //         "Already have an account? ",
+              //         style: TextStyle(fontSize: 17),
+              //       ),
+              //       Text(
+              //         "Log In ",
+              //         style: TextStyle(
+              //           fontSize: 17,
+              //           color: Colors.red,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),
