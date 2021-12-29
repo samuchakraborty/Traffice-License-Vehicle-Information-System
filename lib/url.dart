@@ -42,3 +42,7 @@ const String adminLoginUrl =
 
 const String updateLicenseUrl =
     baseUrl + "admin/updateLicense";
+
+
+const String updateExamDateUrl =
+    baseUrl + "admin/examDate";

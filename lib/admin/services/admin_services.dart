@@ -28,10 +28,11 @@ class AdminRepository {
     final response = await Dio().get(adminGetUserUrl);
     //final jsonResponse = jsonDecode(response.data);
     print('samu');
-    print(response.data);
+
+    print(adminGetUserUrl);
 
     if (response.statusCode == 200) {
-      print(response.statusCode);
+      print(response.data);
 
       return User.fromJson(response.data);
     } else {
@@ -87,4 +88,28 @@ class AdminRepository {
 
     // print(response.body);
   }
+
+  Future updateExamDate({licenseNo, required String examDate}) async {
+    print(updateExamDateUrl);
+    print({'license': licenseNo, 'examDate': examDate});
+    final response = await Dio().post(updateExamDateUrl,
+        queryParameters: {'license': licenseNo, 'examDate': examDate.toString()}
+      // options: Options(contentType:("application/x-www-form-urlencoded"))
+      // options: Options(contentType: Headers.formUrlEncodedContentType),
+    );
+    print({'license': licenseNo, 'examDate': examDate.toString()});
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('expression is occur');
+    }
+
+    // print(response.body);
+  }
+
+
+
+
+
+
 }

@@ -1,12 +1,15 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:traffice_information_system/admin/screen/UserList.dart';
+import 'package:traffice_information_system/admin/services/admin_services.dart';
 import 'package:traffice_information_system/widgets/custom_button.dart';
 
 class SentExamDate extends StatefulWidget {
   final String label;
+  final String license;
 
-  SentExamDate({required this.label});
+  SentExamDate({required this.label, required this.license});
 
   @override
   State<SentExamDate> createState() => _SentExamDateState();
@@ -25,7 +28,9 @@ class _SentExamDateState extends State<SentExamDate> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 120,),
+            SizedBox(
+              height: 120,
+            ),
             Container(
               height: 60,
               margin: const EdgeInsets.all(10.0),
@@ -79,12 +84,30 @@ class _SentExamDateState extends State<SentExamDate> {
                 ],
               ),
             ),
-
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
             Container(
               width: MediaQuery.of(context).size.width / 2.2,
               child: CustomButton(
-                  onPressed: () {}, buttonName: 'Change Exam Date'),
+                  onPressed: () {
+                    AdminRepository()
+                        .updateExamDate(
+                            licenseNo: widget.license,
+                            examDate: controller.text.toString().split(' ')[0])
+                        .then((value) {
+                      if (value == true) {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserList(),
+                          ),
+                        );
+                      }
+                    });
+                  },
+                  buttonName: 'Change Exam Date'),
             ),
           ],
         ),

@@ -259,7 +259,7 @@ class _UserListState extends State<UserList> {
                     return ListView.separated(
                       itemCount: snapshot.data!.license!.length,
                       itemBuilder: (context, index) {
-                        print(snapshot.data!.license!.length);
+                       // print(snapshot.data!.license!.length);
                         return GestureDetector(
                           onTap: () {
                             if (snapshot.data!.license![index].examDate ==
@@ -271,6 +271,9 @@ class _UserListState extends State<UserList> {
                                   builder: (context) => SentExamDate(
                                     label: snapshot.data!.license![index].name
                                         .toString(),
+                                    license: snapshot.data!.license![index].lcNo
+                                        .toString(),
+
                                   ),
                                 ),
                               );
